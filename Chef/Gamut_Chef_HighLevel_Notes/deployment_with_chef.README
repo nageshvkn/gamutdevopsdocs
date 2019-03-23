@@ -1,0 +1,5 @@
+1.
+copy gamutkart.war to "deployment_with_chef/cookbooks/gamutkart2/files
+
+2. 
+copy 'apache-tomcat-8.5.38.tar.gz' to "deployment_with_chef/cookbooks/gamutkart2/files

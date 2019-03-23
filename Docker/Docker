@@ -1,0 +1,584 @@
+		Docker - The Container Virtualization Tool
+	==================================================
+Day-1:
+######
+#
+Diff between..
+- Physical server
+- Virtual machine
+- Docker container.
+
+VM, Docker, usage in realtime
+
+#
+what is docker? why docker? who can use it?
+
+
+#
+Supported Platforms-
+	- Docker is supported on
+		- Linux platforms
+			Ubuntu, RHEL, CentOs..etc.
+		- Windows  
+		- OS X 		
+		  
+	- Cloud Platforms
+		Amazon EC2
+		Rackspace Cloud
+		Google compute Engine..etc.
+		Azure
+
+Note:
+Linux containers can be created on Windows and OS X.
+HOW?- Windows Docker installer contains a tiny Linux virtual machine. Docker creates linux container on top of this tiny Linux VM.
+
+
+Requirements:
+	- 64-bit architecture	  
+	- Linux 3.8 or later Kernel versions
+
+
+#
+Requirements Check:
+- Check Kernel version
+	$ uname -a Or -r
+
+NOTE: Kernel can also be upgraded.
+
+- Check OS name:
+	$ lsb_release -a / -cs
+	$ cat /etc/os-release	
+
+
+Installation Steps:
+=====================	
+# Update apt-get cache
+	$ sudo apt-get update
+
+# Install docker dependencies
+	$ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+
+# Add GPG key to apt repository
+	$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# Setup Stable repository (Add docker download URL manually to apt cache):
+	$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+	
+# Update apt package index:
+	$ sudo apt-get update
+	
+# Install Latest version of Docker
+	$ sudo apt-get install docker-ce
+
+#
+Installation Check
+sudo docker --version
+
+#
+uninstall docker:
+$ sudo apt-get remove docker-ce
+
+
+DAY-2
+#
+Managing docker containers
+===============================
+#
+"docker run" command
+- "docker run" command provides all lanuching capabilities for docker to create a container.
+- we use `docker run` to create new containers.
+
+
+# Creating first container
+
+sudo docker run -it ubuntu /bin/bash
+
+	-i : opens STDIN from the container
+	-t : tells docker to assign a pseudo-tty to the
+		 container.
+	-it : provides interactive shell
+	
+	`ubuntu`: is an image and also called as "stock image" or "base image".
+			  This will be downloaded by default from 'Docker hub' for the first
+			  time.
+	
+	/bin/bash: shell that will be installed in the terminal.
+
+
+
+# Inspect the new container
+1.
+	hostname
+2.
+	cat /etc/hosts
+3.
+	apt-get update
+	apt-get install net-tools
+4.
+	ifconfig
+		observe etho and lo network interfaces with 
+		ip address
+5.
+	ps -ef
+
+
+# SSH setup for containers
+Setup SSH in the containers so that they can communicate to each other
+
+- Create two containers
+		172.17.0.2
+		172.17.0.3
+- Try to connect to 172.17.0.3 from 172.17.0.2 using below command. You will get an error
+	$ ssh gamut@172.17.0.3
+
+- Install ssh server
+$ apt-get update
+$ apt-get install openssh-server
+
+- Start the server
+$ service ssh start (status/stop)
+
+
+- Create an user and set up password
+$ useradd -m -d /home/gamut -s /bin/bash gamut
+$ passwd gamut
+	
+- Connect to the container using ssh from your host or any other container.
+$ ssh gamut@172.17.0.3
+
+
+#
+Shotdown a container
+"exit" to stop the container
+
+# List all containers(stopped and running)
+sudo docker ps -a
+
+# List running containers only
+docker ps
+
+# ps command output shows
+	- Image name from which container is created
+	- ID - container can be identified using short UUID, longer UUID Or name.
+	- Status of the container (Up / Exited)
+	- Name
+
+
+# See longer UUID of the container 
+	$ docker ps -a --no-trunc -q"
+
+# show the last container which you have created(stopped/running)
+sudo docker ps -l
+
+# Naming the container
+	docker run --name gamut -it ubuntu /bin/bash
+
+Note: Two containers can't have the same name.
+
+# Rename a container
+$ docker rename db-server3 db-server-name3
+
+# Deleting a container
+$ docker rm ID/name
+
+#
+docker info
+
+# Delete all containers at once.
+ $ docker rm `docker ps -a -q`
+ $ docker rm $(docker ps -a -q)
+
+
+# Starting a stopped container
+	sudo docker start gamut
+	sudo docker stop aa3f365f0fdocker4e
+	sudo docker restart gamut
+
+# Shortcut Keys
+	Ctrl + p + q - push a running container in background mode.
+	Ctrl + d -  short cut to 'exit' from the container.
+	
+
+# Attaching to a running container
+	docker attach gamut
+	docker attach b1b1c8dc1939
+
+
+
+# List Stopped containers only
+$ docker ps -a -f status=exited ( Where Status can be exited/running )
+
+
+DAY-3:
+	# Inspecting the container's processes from host machine
+	- docker top <container-name>
+
+# Stoping a container from 'host machine'
+	- docker stop dgamut
+	- docker stop ee319cddd42e(Gracefully stop the cntainer with SIGTERM)
+	- docker kill dgamut (Forcibly stop the container with SIGKILL)
+
+# Show last 4 containers (stopped/running)
+	- docker ps -n4
+
+
+# Find More About The Container
+- docker inspect comamnd "interrogates" the container and returns the info like.. configuration info, names, commands, n/w configurations, stopped/running ..etc.
+	 
+	 Examples:
+	$ docker inspect <container-name>
+
+	$ docker inspect --format '{{.Config.Hostname}}' dgamut
+
+	$ docker inspect -f '{{.NetworkSettings.Networks.bridge.IPAddress}}' db-server1
+
+	$ docker inspect --format {{.NetworkSettings.Networks.bridge.IPAddress}} 
+	 `docker ps -q`
+	
+ Note: use --format (OR) -f  	
+
+
+- Remove all running containers
+		docker rm -f `docker ps -q`
+
+#
+$ docker pause db-server1
+$ docker unpause db-server1
+
+
+DAY-4:
+# Docker Images
+=================
+Agenda:
+	- Understand docker Image
+	- Create docker Image
+	- Store docker Image
+	- Share your own Image
+	- Examine repositories that hold images
+
+- Docker images are the building blocks for creating container.
+- From images, we launch containers.
+	
+# Listing docker images
+		- docker image ls
+
+- Images live in '/var/lib/docker/image/overlay2/imagedb/content/sha256'
+- Containers live in '/var/lib/docker/containers'
+
+
+# Images in Build and Deployments OR DevOps world!
+
+a. Works In my machine problem.
+b. Developers can set local env.
+c. Issue? don't troubleshoot. Just throw it away and create new instantly.
+d. Auto scale your environment
+e. No need to live with complex, redundant configurations.
+f. You can leverage/utilize local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then whey again you need extra hardware?
+
+
+DAY-5:
+PROJECT-1:
+============
+#
+SETTING-UP NGINX SERVER ON UBUNTU MANUALLY:
+--------------------------------------------
+ sudo apt-get update
+ sudo apt-get install -y nginx
+
+ start/stop/restart nginx server:
+=========== 			
+ sudo service nginx start
+ 			  nginx stop 
+			  nginx restart
+			  nginx status
+
+Web content/Deployment path: /var/www/html
+
+Uninstall nginx:
+sudo apt-get purge nginx nginx-common
+
+
+# Building our own Image
+	We have 2 Ways to create docker image:
+		1. docker "commit"
+		2. docker "build" cmd & Dockerfile
+
+# Creating docker image using "docker commit" command
+
+PROJECT-1:
+	Create an image which will ship your application code along with nginx configuration.
+
+-create container
+	$ docker run -it --name school-app-base-cont ubuntu /bin/bash
+	
+- Install nginx manually
+	$ apt-get update
+	$ apt-get install -y nginx
+
+- Deploy some application code into /var/www/html
+	sample index.html:
+=======
+		<html>
+   			<body>
+     			<h1 style="color:red;">Gamutkart Online Training Portal</h1>
+				</body> 
+		</html>
+=======
+
+- Create a docker image from the container (OR) Convert docker container as 	 
+  docker image
+	$ docker commit school-app-base-cont nageshvkn/nginx-img
+	
+- Check if image has been created
+	$ docker images
+
+- Push the newly created image to docker hub
+	$ docker login
+	$ docker push nageshvkn/nginx-img
+
+Note: Now you have succussfully containerized your application and published the iamge to DockerHub
+
+Note: To verify your image, create a container as your customer
+
+- Customers can spin millions of new containers using below command and all get application with nginx out-of-box.
+	$ docker run -it nageshvkn/nginx-img /bin/bash
+
+
+PROJECT-2:
+=============
+DAY-6:
+# Creating docker image using "docker build" command
+=================
+	- mkdir gamutgurus
+	- cd gamutgurus
+	- touch Dockerfile
+
+	--> 'gamutgurus' directory is called "context" or "build context".
+		It contains the code, files or other data that you want to include in the image.
+	
+	- Write Dokckerfile:
+		FROM ubuntu:16.04
+		MAINTAINER "info@gamutgurus.com"
+		RUN apt-get update
+		RUN apt-get install -y nginx
+		COPY index.html /var/www/html
+		ENTRYPOINT service nginx start && bash
+
+index.html:
+=======
+<html>
+   <body style="background-color:powderblue;">
+     <h1 style="color:red;">Gamug Gurus Online Training Portal</h1>
+	</body> 
+</html>
+ 	
+# Building docker image:
+	$ cd gamutgurus
+	$ docker build -t="nageshvkn/nginx-img" .
+	$ docker build -f MyDockerfile -t="nageshvkn/nginx-img" . [If Dockerfile name
+																	is different]
+
+# Listing docker image
+$ docker images
+
+# Pushing custom images to docker repository
+	$ docker login
+	$ docker push nageshvkn/nginx-image
+
+#
+Testing Image
+
+# Remove the local image so that it will be downloaded from Docker Hub.
+	$ docker rmi nageshvkn/nginx-image
+ 
+# Creating a new container from our image
+	$ docker run -it --name nginx-container nageshvkn/nginx-img /bin/bash
+
+# Verify if nginx is running from the container.
+	$ http://172.17.0.2:80
+
+
+# Creating docker hub account
+- Docker Hub (https://hub.docker.com/)
+	- Each Repository can contain multiple images
+	- Images are Identified using tags.
+
+	
+#
+User Images Syntax:
+	nageshvkn/nginx (username/imagename)
+
+Official Images Syntax:
+	ubuntu
+
+User images are controled by Docker users.
+official images are controled by Docker core team.
+
+
+# Specifying Image via tags
+	- ubuntu:16.04
+	  ubuntu- is image name
+	  16.04 - is called tag
+
+
+# Pulling the images
+	- docker pull tomcat
+
+# Searching docker images in docker hub
+	- docker search puppet
+	- docker search jenkins
+
+
+# Deleting an Image
+	- docker rmi gamut/nginx
+
+# Deleting all Images
+	- docker rmi `docker images -q`
+
+
+DAY-7:
+#
+Docker Image layers
+=========================
+- Checking the history of our docker image
+	$ docker history <Image-Id>
+
+# Build image without using build cache	
+	- Use --no-cache option
+	$ docker build --no-cache -t="username/imagename" .
+
+
+# Container creation process - Deep dive
+  How contaner is created:
+		
+		Writable Layer		
+		-		
+		Gamutkart application		
+		Apache image
+		nginx image
+		-		
+		Ubuntu Base Image(rootfs)
+		-
+		Bootfs:
+		    cgroups, namespace, divicemapper/aufs..etc.
+		Kernel
+
+
+DAY-8:
+Gamutkart Real application;
+============================
+Agenda:
+- Build and deployments with Docker containers.
+- Real Containerization with Docker.
+- Creating dockerized environments.
+- Dockerizing your application.
+
+Question:
+How are you using docker containerization tool for your builds and deployments?
+Can you explain your Docker environment?
+Can you explain how you have implemented Docker in your project?
+Given a chance how do you dockerize your application?
+
+
+1. Clone the source code from Git or any other V.C.S
+	$ git clone https://github.com/nageshvkn/gamutkart2.git
+ 
+2. Build the code using your favourate build tool Maven/ANT
+	$ mvn install
+
+3. Create docker image for the application(gamutkart2) with
+   war file, tomcat,jdk...etc using below Dockerfile.
+	Dockerfile:
+	-------------
+	FROM tomcat:8.0
+	COPY gamutkart.war /usr/local/tomcat/webapps
+	ENTRYPOINT /usr/local/tomcat/bin/startup.sh && bash
+
+4. Build the Image using below command
+	$ docker build -t "nageshvkn/gamutkart-img" .
+
+5. Run below shell script to create an environment with give no. containers
+	$ ./create-env.sh 10
+
+6. Observer all containers created using above script ($ docker ps)
+
+7. Launch the gamutkart application from all containers.
+	$ http://IP:8080/gamutkart
+
+#
+Docker and Jenkins Integration
+
+
+Notes:
+======
+#
+Docker Benefits:
+=================
+1. Portability: 
+	ship environments from one type of infrastructure to another without building up new VMs and tearing down the old ones.
+
+2. Quick deployment/Teardown:
+	With a single command, you can spin up new containers or tear down existing ones. If you want to clone a new VM, you are looking at waiting for close to or over a few hours. With Docker, it will take a few minutes to achieve what you need.
+
+3. Consistency:
+	No more of the "works on my machine!" excuse. As
+everyone uses the same images to work, consistency is always guaranteed.
+	All the container will act the same in your environment as it will on others.
+
+4. Managing infrastructure-like code:
+When it comes to upgrades, you can simply update your Dockerfile, and then tear down the old one. This helps not only with updates, but it can also help with rollbacks as well.
+
+# 
+Manage/Run Docker as a non-root user
+==========================
+Run docker command without sudo.	
+------
+	1. Create the "docker" group
+		$ sudo groupadd docker
+
+	2. Add your user to this group
+		$ sudo usermod -aG docker gamut
+
+	3. Logout and Login back so that your group membership
+	   is re-evaluated.
+
+-- verification and cleanup
+
+	4. Check group existance:
+		$ sudo grep docker /etc/group
+
+	5. Delete the group
+		$ sudo groupdel docker
+	
+	6. You can use 'gpasswd' command to remove the user from the group or add the 
+	   User to the group.
+		$ sudo gpasswd -d gamut docker
+		$ sudo gpasswd -a gamut docker
+
+Misc:
+=======
+# How to set Environment variable in a container?
+ENV JAVA_HOME /home/gamut/Distros/jdk1.8.0_151
+
+# How to you log into a container automatically using a particular user
+	Add below docker instruction
+		USER gamut
+
+# How do you cd to a particular directory automatically once the container is created?
+	WORKDIR /home/gamut
+
+# How do you pass arguments to the container during "docker run" command?
+	CMD ["/usr/sbin/useradd", "-m", "-d", "/home/gamut", "-s", "/bin/bash", "gamut"]
+
+
+Misc:
+====
+--> docker volumes
+--> port mapping
+--> docker smarm
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+{
+   "name": "app-server",
+   "description": "Web server role.",
+   "default_attributes": {
+     "chef_client": {
+       "interval": 300,
+       "splay": 60
+     }
+   },
+   "override_attributes": {
+   },
+   "chef_type": "role",
+   "run_list": ["recipe[gamutkart2]"
+   ],
+   "env_run_lists": {
+   }
+}
