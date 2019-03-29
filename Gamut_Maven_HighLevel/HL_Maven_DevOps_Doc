@@ -1,0 +1,295 @@
+					MAVEN				
+
+DAY-1:			============
+#1
+	Java Build and Deployment End-To-End Workflow.
+
+#2
+Basics
+	- Java program
+	- manual compilation
+
+#3
+What is Maven? Why we need a build tool?
+
+
+#4
+Installation
+	- Download JDK 1.8 and extract it to your favourite location.
+	- Download lastest Maven and extract it to your favourite location.
+	- Set-up below Environment variables for Maven and JDK in order to run Maven
+	  and JDK commands from any directory in th system.
+		1. JAVA_HOME
+		2. M2_HOME
+		3. PATH
+
+Installing JDK and Maven:
+=======================
+  A. open $USER_HOME/.bashrc
+  
+  B. create below Environment variables
+	export M2_HOME=/home/gamut/mavensoftwares/apache-maven-3.3.9
+	export JAVA_HOME=/home/gamut/mavensoftwares/jdk1.8.0_121
+
+	export PATH=$M2_HOME/bin:$JAVA_HOME/bin:$PATH
+
+
+Load .bashrc using below command or open new ternimial
+	$ source .bashrc
+ 
+Verify Installation
+	$ javac -version
+	$ mvn --version
+
+DAY-2:
+
+#5 TEST YOUR KOWLEDGE
+Build and Deployment E2E work-flow and basics
+	- What is compilation & why we compile the source code
+	- Packaging sequence for Java application
+	- What is Build
+	- What is Deployment
+	- Environment
+	- Dev, QA & DevOps teams Interaction and Collaboration.
+
+#6
+Maven's standard project layout
+=================================
+Project creation:
+-----------------
+java projects which are created by maven, ideally follows below project folder structure.
+	
+		flipkart
+			|
+			src		pom.xml
+			|
+	main--------- test
+	|				|
+   java		       java
+	|				|
+  (group.Id)	  (group.Id)
+	|				|
+App.java		AppTest.java
+
+flipkart - is called "Project name" / "ArtifactID"
+src 	 - Source folder which contains the 
+				application source code
+main	 - Contains application's main functional code
+test	 - Contains application's unit testing code
+pom.xml  - Maven's build file using which we can
+				configure build steps such as 
+				compilation, test runs, jar/war creation,
+				deployments...etc.
+
+
+#7
+Creating a Java Project using Maven:
+
+$ mvn archetype:generate -DgroupId=com.gamutkart -DartifactId=gamutkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false
+
+DAY-3:
+#8
+Building the maven project:
+-----------------------
+Execute "mvn install":
+
+	'mvn install' command executes below maven "build life cycle" phases automatically. 
+
+	- initialize
+		prepares project with initial pre-
+		requisites ex: creating necessary directory structure.
+	- validate
+		validate project's structure	
+	- compile
+		compiles "main" java code.
+	- test-compile
+		compiles "test" java code
+	- test
+		Runs the test cases and generates test reports.
+	- package
+		creates jar/war.
+	- install
+		copy built artifacts i.e jar/war file into local repository $USER_HOME/.m2
+		folder.
+
+#9
+Verify Built artifacts:
+--------------------------
+Go to "target" folder and observe below.
+	
+			target
+			  |
+		classes     test-classes	surefire-reports	jar/war file
+
+
+	classes: directory contains compiled class files
+				of main source code
+	test-classes: directory contains compiled class
+				files of test source code
+				
+	surefire-reports: contains test reports.
+
+	flipkart-1.0-SNAPSHOT.jar: jar file of main code
+
+Note: first time when we run 'mvn install' command, Maven downloads all missing dependencies into .m2  from maven's central repository.
+So, we need to have internet when we run 'mvn install' command first time.
+
+
+#10
+Artifact path in local repository .m2
+# More about local repository
+ $USER_HOME/.m2/repository/groupId/artifactId/version/jar-OR-war-file
+
+- Package naming convention:
+	artifactId-version.jar/war
+
+DAY-4:
+#11:
+Maven Automatic Dependency resolution feature
+	
+	- Direct dependency
+	- Transitive dependency (hamcrest is dependency of junit and it becomes transitive dependency for our code)
+
+
+Maven way of dependency addition, detection from different repositories.
+
+#12
+Maven repositories
+	- Central
+	- Private/Remote ( Nexus/atifactrory tools)
+	- Local (.m2)
+
+#13
+	$ mvn deploy (uploads jar files to private (nexus) repository)
+		
+
+#14
+"mvn clean" 	
+
+
+#18
+Where Maven's coordinates / GAV parameters come into picture / helpful?
+	- To decide artifact storage path in local/central/remote
+		repositories
+	- To decide jar/war name
+	- To define a dependency in pom.xml file.
+
+#19
+WEB Application Build and Deployment.
+====================================
+To create a project which is suitable for Web applicatin, use below command.
+(New option on top of previously used command for stand-alone application: -DarchetypeArtifactId=maven-archetype-webapp)
+
+	$ mvn archetype:generate -DartifactId=flipkart -DgroupId=com.flipkart -
+	  Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-
+	  archetype-webapp
+
+
+PROJECT-01:
+------------
+Goal: 
+	- Create a project for flipkart web application and perform end-to-end build and deployment
+	- To be able to handle build and deployment for any web application
+ 
+===========
+Steps:
+-------
+#
+Create Maven web application project usgin below command (Usually we clone the code from Git)
+
+$ mvn archetype:generate -DgroupId=com.flipkart -DartifactId=flipkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-archetype-webapp
+
+#
+Build the application using below Maven command
+$ mvn install
+
+#
+Check final artifact i.e flipkart.war file in target directory
+$ ls target 
+
+#
+Set-up tomcat for deployment
+- Download tomcat *.tar.gz file.
+- Extract it to your favouriate location
+- Make sure JAVA_HOME environment variable is set
+
+#
+Deploy flipkart.war into tomcat deployment path
+$ cp target/flipkart.war $TOMCAT_HOME/webapps
+
+#
+Start tomcat server
+$ cd $TOMCAT_HOME/bin 
+$ ./startup.sh
+
+#
+Launch application with below URL.
+http://localhost:8080/flipkart
+
+Syntax:
+[http://tomcat-server_name-or-IP:PORT/war-filename]
+
+
+#26
+Project:2 (Real-time End-to-End Build and Deployment Process)
+=================================
+Goals: 
+- Building the War for large real-time kinda application
+- Learning Deployments into tomcat Server
+
+Steps:
+------------
+#
+Install GIT
+$ sudo apt-get update
+$ sudo apt-get install git
+
+# Clone gamutkart application source code into the build server from below "gamutkart" github repository.
+$ git clone https://github.com/nageshvkn/gamutkart2.git
+
+3.
+Build "gamutkart" application using below command.
+$ mvn install
+
+- When we run 'mvn install' command, by default maven reads pom.xml file and runs the given goal/target(i.e install). According to Maven's build lifecycle, maven executes all required build steps such as:
+	validate
+	initialize
+	compile
+	test
+	package
+	install
+	
+'mvn install' command reads pom.xml file for all build configurations before it executes it's lifecycle build steps. ex: it checks GAV(groupId, artifactId and version), package type(jar,war or ear), downloads all the required dependencies from central or private repositories and compiles main and test code.
+
+Based on the package and <finalName> attribute, it creates the artifact(i.e war file) with given name. And copies into ~/.m2/repository/${groupId}/${artifactId}/${version}/${artifactId}-${version}.war
+
+Assuming it's web application and .war is our final artifact, we need to deploy it to some application server like tomcat to make application accessible by the end user. 
+
+4. 
+Deploy gamutkart.war application to remote server deployment location(i.e $TOMCAT_HOME/webapps) using below command or some shell or automation scripts.
+	$ scp gamutkart.war gamut@192.168.0.4:/home/gamut-idc-node1/Distros/apache-tomcat-8.5.11/webapps
+
+4A.
+After the deployment, we need start the server using below tomcat startup comamnd.
+	$ cd $TOMCAT_HOME/bin
+	$ ./startup.sh
+
+5.
+Tomcat by default runs on port 8080. So application can be accessed with below URL.
+
+	ex: http://IPAddress:8080/gamutkart
+ 		http://localhost:8080/gamutkart (If application is deployed in local 
+																		machine)
+		
+6. NOTE:
+In case there is any issue in the application, errors will be logged in 
+"$TOMCAT_HOME/logs/catalina.2017-03-24.log" file.
+
+We can check this file and if there are any errors/exceptions, we provide this info to developers.
+
+7.
+Note: If you want to change the port number, Go to below file and change the port number where you see something like this. ( port="8085" protocol="HTTP/1.1")
+	vim $TOMCAT_HOME/conf/server.xml
+
+
+
