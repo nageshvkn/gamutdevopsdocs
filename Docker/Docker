@@ -13,7 +13,6 @@ VM, Docker, usage in realtime
 #
 what is docker? why docker? who can use it?
 
-
 #
 Supported Platforms-
 	- Docker is supported on
@@ -91,7 +90,7 @@ Managing docker containers
 
 # Creating first container
 
-sudo docker run -it ubuntu /bin/bash
+$ sudo docker run -it ubuntu /bin/bash
 
 	-i : opens STDIN from the container
 	-t : tells docker to assign a pseudo-tty to the
@@ -99,14 +98,14 @@ sudo docker run -it ubuntu /bin/bash
 	-it : provides interactive shell
 	
 	`ubuntu`: is an image and also called as "stock image" or "base image".
-			  This will be downloaded by default from 'Docker hub' for the first
-			  time.
+			  This will be downloaded by default from 'Docker hub' when you run 
+			 'docker run' command first time.
 	
-	/bin/bash: shell that will be installed in the terminal.
+	/bin/bash: shell program that will be installed in the terminal.
 
 
 
-# Inspect the new container
+# Inspect the new container.. Let's beleive that it's separate machine
 1.
 	hostname
 2.
@@ -129,7 +128,7 @@ Setup SSH in the containers so that they can communicate to each other
 		172.17.0.2
 		172.17.0.3
 - Try to connect to 172.17.0.3 from 172.17.0.2 using below command. You will get an error
-	$ ssh gamut@172.17.0.3
+	$ ssh gamut@172.17.0.3 (you won't be able to conect by default)
 
 - Install ssh server
 $ apt-get update
@@ -143,7 +142,7 @@ $ service ssh start (status/stop)
 $ useradd -m -d /home/gamut -s /bin/bash gamut
 $ passwd gamut
 	
-- Connect to the container using ssh from your host or any other container.
+- Connect to the container using ssh from 172.17.0.2 or any other machine.
 $ ssh gamut@172.17.0.3
 
 
@@ -152,23 +151,23 @@ Shotdown a container
 "exit" to stop the container
 
 # List all containers(stopped and running)
-sudo docker ps -a
+$ sudo docker cotainer ls -a
 
 # List running containers only
-docker ps
+	sudo docker cotainer ls
 
-# ps command output shows
+# List Stopped containers only
+$ docker container ls -f status=exited (Where Status can be exited/running)
+
+
+# "docker container ls" command output shows
 	- Image name from which container is created
 	- ID - container can be identified using short UUID, longer UUID Or name.
 	- Status of the container (Up / Exited)
-	- Name
+	- Name of the container
 
-
-# See longer UUID of the container 
-	$ docker ps -a --no-trunc -q"
-
-# show the last container which you have created(stopped/running)
-sudo docker ps -l
+# show the last container which you have created (stopped/running)
+sudo docker container ls -l
 
 # Naming the container
 	docker run --name gamut -it ubuntu /bin/bash
@@ -178,16 +177,19 @@ Note: Two containers can't have the same name.
 # Rename a container
 $ docker rename db-server3 db-server-name3
 
-# Deleting a container
+# Deleting a container by giving it's name or ID
 $ docker rm ID/name
 
-#
-docker info
+# Delete all (running/stoped) containers at once
+ $ docker rm -f `docker container ls -a -q`
+ $ docker rm -f $(docker container ls -a -q)
 
-# Delete all containers at once.
- $ docker rm `docker ps -a -q`
- $ docker rm $(docker ps -a -q)
+# Delete running containers only
+$ docker rm -f $(docker container ls -f status=running -q)
+$ docker rm -f $(docker container ls -q)
 
+# Delete stopped containers only
+$ docker container ls -f status=exited
 
 # Starting a stopped container
 	sudo docker start gamut
@@ -203,19 +205,12 @@ docker info
 	docker attach gamut
 	docker attach b1b1c8dc1939
 
-
-
-# List Stopped containers only
-$ docker ps -a -f status=exited ( Where Status can be exited/running )
-
-
 DAY-3:
 	# Inspecting the container's processes from host machine
 	- docker top <container-name>
 
 # Stoping a container from 'host machine'
-	- docker stop dgamut
-	- docker stop ee319cddd42e(Gracefully stop the cntainer with SIGTERM)
+	- docker stop dgamut (Gracefully stop the cntainer with SIGTERM)
 	- docker kill dgamut (Forcibly stop the container with SIGKILL)
 
 # Show last 4 containers (stopped/running)
@@ -231,9 +226,6 @@ DAY-3:
 	$ docker inspect --format '{{.Config.Hostname}}' dgamut
 
 	$ docker inspect -f '{{.NetworkSettings.Networks.bridge.IPAddress}}' db-server1
-
-	$ docker inspect --format {{.NetworkSettings.Networks.bridge.IPAddress}} 
-	 `docker ps -q`
 	
  Note: use --format (OR) -f  	
 
@@ -241,7 +233,7 @@ DAY-3:
 - Remove all running containers
 		docker rm -f `docker ps -q`
 
-#
+# Push a container in sleep mode
 $ docker pause db-server1
 $ docker unpause db-server1
 
@@ -250,30 +242,31 @@ DAY-4:
 # Docker Images
 =================
 Agenda:
-	- Understand docker Image
-	- Create docker Image
-	- Store docker Image
-	- Share your own Image
-	- Examine repositories that hold images
+	- Understand docker Images
+	- Advantages of Docker Images
+	- Create docker Image for your application
+	- Share/publish your Image
+	- Examine Docker repositories that hold images
 
-- Docker images are the building blocks for creating container.
+- Docker images are the building blocks for creating container
+
 - From images, we launch containers.
-	
+
+# Advantages of Images in Build and Deployments OR DevOps world!
+
+a. Works In my machine problem.
+b. Develo	ry quickly
+c. Is there an Issue? don't spend time to troubleshoot it. Just throw the machine which has the issue away and 
+	create new instantly.
+d. Auto scale your environment
+e. No need to live with complex, redundant configurations.
+f. You can leverage/utilize local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then why again you need extra hardware?
+
 # Listing docker images
-		- docker image ls
+- $ docker image ls
 
 - Images live in '/var/lib/docker/image/overlay2/imagedb/content/sha256'
 - Containers live in '/var/lib/docker/containers'
-
-
-# Images in Build and Deployments OR DevOps world!
-
-a. Works In my machine problem.
-b. Developers can set local env.
-c. Issue? don't troubleshoot. Just throw it away and create new instantly.
-d. Auto scale your environment
-e. No need to live with complex, redundant configurations.
-f. You can leverage/utilize local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then whey again you need extra hardware?
 
 
 DAY-5:
@@ -318,19 +311,18 @@ PROJECT-1:
 - Deploy some application code into /var/www/html
 	sample index.html:
 =======
-		<html>
-   			<body>
-     			<h1 style="color:red;">Gamutkart Online Training Portal</h1>
-				</body> 
-		</html>
+<html>
+    <body>
+	<h1 style="color:red;">Gamutkart Online Training Portal</h1>
+    </body> 
+</html>
 =======
 
-- Create a docker image from the container (OR) Convert docker container as 	 
-  docker image
+- Create a docker image from the container (OR) Convert docker container as docker image
 	$ docker commit school-app-base-cont nageshvkn/nginx-img
 	
 - Check if image has been created
-	$ docker images
+	$ docker image ls
 
 - Push the newly created image to docker hub
 	$ docker login
@@ -342,6 +334,9 @@ Note: To verify your image, create a container as your customer
 
 - Customers can spin millions of new containers using below command and all get application with nginx out-of-box.
 	$ docker run -it nageshvkn/nginx-img /bin/bash
+
+- Launch the application to test if application is configured along with dependencies.
+	http://172.17.0.2:80
 
 
 PROJECT-2:
@@ -379,7 +374,12 @@ index.html:
 																	is different]
 
 # Listing docker image
-$ docker images
+$docker image ls
+
+# Creating docker hub account
+- Docker Hub (https://hub.docker.com/)
+	- Each Repository can contain multiple images
+	- Images are Identified using tags.
 
 # Pushing custom images to docker repository
 	$ docker login
@@ -389,19 +389,14 @@ $ docker images
 Testing Image
 
 # Remove the local image so that it will be downloaded from Docker Hub.
-	$ docker rmi nageshvkn/nginx-image
+	$ docker rmi ubuntu
+	$ docker image rm ubuntu - new command
  
 # Creating a new container from our image
 	$ docker run -it --name nginx-container nageshvkn/nginx-img /bin/bash
 
 # Verify if nginx is running from the container.
 	$ http://172.17.0.2:80
-
-
-# Creating docker hub account
-- Docker Hub (https://hub.docker.com/)
-	- Each Repository can contain multiple images
-	- Images are Identified using tags.
 
 	
 #
@@ -419,6 +414,8 @@ official images are controled by Docker core team.
 	- ubuntu:16.04
 	  ubuntu- is image name
 	  16.04 - is called tag
+
+# Registry & Repository
 
 
 # Pulling the images
@@ -555,27 +552,19 @@ Run docker command without sudo.
 		$ sudo gpasswd -d gamut docker
 		$ sudo gpasswd -a gamut docker
 
-Misc:
-=======
-# How to set Environment variable in a container?
-ENV JAVA_HOME /home/gamut/Distros/jdk1.8.0_151
 
-# How to you log into a container automatically using a particular user
-	Add below docker instruction
-		USER gamut
+Qns:
+- Difference bet'n ENTRYPOINT, CMD , RUN
+- Change build context to some dir instead of "."
+- overide bash as part of ENTRYPOING with /bin/bash
+- allocate dedicated HDD/RAM to a container
+- ENDPOINT
 
-# How do you cd to a particular directory automatically once the container is created?
-	WORKDIR /home/gamut
-
-# How do you pass arguments to the container during "docker run" command?
-	CMD ["/usr/sbin/useradd", "-m", "-d", "/home/gamut", "-s", "/bin/bash", "gamut"]
+wk:
+- change image storage path
 
 
-Misc:
-====
---> docker volumes
---> port mapping
---> docker smarm
+
 
 
 
