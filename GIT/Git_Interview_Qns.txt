@@ -158,5 +158,7 @@ Qns:
 	$ git remote rm origin
 	$ git remote add origin https://github.com/nageshvkn/jinglegurus.git
 
+9. Push a particular commit to remote repository
+	$ git push origin 7d662c54a4e0367c:master
 
 
