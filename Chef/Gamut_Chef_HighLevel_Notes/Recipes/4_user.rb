@@ -1,6 +1,6 @@
-user 'david' do
-  comment "creating david user for deployments"
+user 'harry' do
+  comment 'creating this user for deployments'
   manage_home true
-  home '/home/david'
+  home '/home/harry'
   shell '/bin/bash'
 end

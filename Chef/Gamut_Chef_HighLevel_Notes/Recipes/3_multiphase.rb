@@ -1,5 +1,6 @@
-['bacon', 'sasuage', 'eggs'].each do |file|
-  file "/etc/#{file}" do
-    content "#{file} is dilicious!"
+['bacon', 'eggs', 'sasuage'].each do |i|
+  file "/etc/#{i}" do
+    content "#{i} is delicious!"
   end
 end
+

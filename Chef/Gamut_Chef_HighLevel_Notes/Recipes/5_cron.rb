@@ -1,7 +1,6 @@
-cron 'This cron reboots the machine to freeup any unused space' do
-  user 'gamut'
+cron "creating to free-up some resources" do
   minute '00'
-  hour '1'
-  command 'reboot' 
+  hour '5'
+  command 'reboot'
+  user 'gamut'
 end
-

@@ -1,5 +1,7 @@
 file 'reboot.log' do
-  content "system has been rebooted!"
+  content 'something'
+  owner 'gamut'
+  mode '777'
   action :delete
 end
 

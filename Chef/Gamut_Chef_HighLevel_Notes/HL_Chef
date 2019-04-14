@@ -7,7 +7,7 @@ DAY-1:
 	  manages the infrastructure.
 	  
 	- Manually built infrastructure becomes hard to 
-	  understand and modify. People tend to fear for 
+	  understand and modify. People have fear for 
 	  implementing a change.
 			  
 	- Chef helps us to handle changes or change management
@@ -22,11 +22,11 @@ DAY-1:
 	- Enables infrastrucute as a code. (IAC)
 	
 	- Chef can automatically detect the faults and repair 
-	  them.	  
+	  the system.	  
 
 ChefDK Installation:
 ===================
-1. Download "Chef Development Kit" (Chefdk/CDK)
+1. Download "Chef Development Kit" (ChefDK/CDK)
 	chefdk_1.3.43-1_amd64.deb
 
 2. Install the debian package using
@@ -37,8 +37,11 @@ ChefDK Installation:
 
 Chefdk uninstallation:
 ========================
-dpkg --list | grep chefdk
-sudo dpkg -P chefdk
+# check the package if it's installed
+$ dpkg --list | grep chefdk
+
+# Uninstall 'chefdk' package
+$ sudo dpkg -P chefdk
 
 
 DAY-2:
@@ -54,11 +57,11 @@ Chef Syntax:
 
 Recipe Syntax:
 ===============
-	resource 'NAME' do
-	    parameter1  'value1'
-	    attibute2   value2
-		property3   value3
-	end
+		resource 'NAME' do
+		  property   value
+		  property   value
+		  property   value	
+		end
 
 # Simplest form of Chef recipe code.
 
@@ -69,16 +72,16 @@ Recipe Syntax:
 	
 	--> file - is called as a Resource. The file resource
 		is used to manage a file on a computer. 
-	--> deployment.txt - name_attribute/value for that resource.
+	--> deployment.txt - name_attribute/value of the resource.
 	--> It can be a single quote or double.
 	--> do - is a clause, denotes the start of a block.
 	--> end - is closing pair for do.
-	--> content - is called as attribute/parameter/property of "file" resource.
-	--> indentation - two spaces.
+	--> content - is called as attribute/property of "file" resource.
+	--> indentation - two spaces
 
 What is Resource:
 	Resources are building blocks used to define specific parts of infrastructure.
-Resource defines actions for Chef to perform.
+	Resource defines actions for Chef to perform.
 
 		
 #
@@ -92,7 +95,7 @@ Chef Concept: Tell WHAT, Not HOW.
 
 - Chef refers recipe and decides how to put the machine in
 	desired configuration by reasoning about the current
-	state of the system(Idompotency).
+	state of the system(Idompotency behaviour).
 
 	As opposed to shell/any scripting where we write 1000 of lines of code(HOW part), in Chef, you just specify "WHAT" not "HOW".
 
@@ -103,9 +106,12 @@ DAY-3:
 	- user
 	- cron
 	- directory
+    - execute
 	- package
 	- apt-update
 	- template
+	- cookbook_file
+
 
 
 # Roll back : Tell Chef what not to do.
@@ -132,7 +138,7 @@ Chef server: Central repository that contains the cookbooks you write and inform
 
 Node: is a computer that is managed by a chef server. ex: computer in your QA/Prod environments.
 
-Knife:  Knife command enables us to communicate with Chef 
+Knife:  Knife is a command that enables us to communicate with Chef 
 		server from workstation.
 		Knife is an interface between your workstation and 
 		Chef server.
@@ -147,14 +153,14 @@ Hosted Chef server setup:
 
 Work station Setup:
 ======================
-1. create a project directory "flipkart/.chef"
+1. create a project directory "wiculty/.chef"
 
 2. configure knife to talk to Chef server
 	knife requires two files to talk to the Chef server
 		1. username.pem (RSA private key ) 
 		2. knife.rb (knife configuration file)
 	
-Generate these two files from 'hosted Chef server' and place them under "flipkart/.chef" directory to establish the connection between your workstation and the chef server.
+Generate these two files from 'hosted Chef server' and place them under "wiculty/.chef" directory to establish the connection between your workstation and the chef server.
 	
 How do you generate knife.rb & username.pem files from chef server?
 	
@@ -210,8 +216,8 @@ knife bootstrap 172.17.0.2 --ssh-user gamut --ssh-password 'gamut' --sudo --use-
 - Bootstrap performs below steps:
 	1. Installs chef-client in node.
 	2. Associates the node to Chef server.
- 	3. Downloads given cookbook from Chef servers and executes it.
-       (i.e learn_chef_apache2).
+ 	3. Runs chef-client command i.e downloads given cookbook from Chef servers
+		and executes it (i.e learn_chef_apache2).
 
 To verify, run below commands..
 	$ knife node list
@@ -370,5 +376,16 @@ $ knife cookbook delete learn_chef_apache2 --all --yes
 $ knife role delete web --yes
 
 
- 
+
+Questions:
+-- How do you trigger 'chef-client' comamnd from WS
+
+$ knife ssh 'name:gamut' 'sudo chef-client' --ssh-user gamut --ssh-password 'gamut' --attribute 172.17.0.2
+
+where, In "name:gamut", 'gamut' is name of the node.
+		172.17.0.2 is IP of the node(i.e gamut)
+
+
+
+
 
