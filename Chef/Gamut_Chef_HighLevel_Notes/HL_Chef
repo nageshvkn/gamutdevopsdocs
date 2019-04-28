@@ -7,7 +7,7 @@ DAY-1:
 	  manages the infrastructure.
 	  
 	- Manually built infrastructure becomes hard to 
-	  understand and modify. People have fear for 
+	  understand and modify. People tend to fear for 
 	  implementing a change.
 			  
 	- Chef helps us to handle changes or change management
@@ -19,14 +19,15 @@ DAY-1:
 	  to build them from scratch. Using Chef, Servers can 
 	  be reproduced easily.
 
-	- Enables infrastrucute as a code. (IAC)
+	- Enables infrastrucute as a code.
 	
 	- Chef can automatically detect the faults and repair 
-	  the system.	  
+	  them.
+	  
 
 ChefDK Installation:
 ===================
-1. Download "Chef Development Kit" (ChefDK/CDK)
+1. Download "Chef Development Kit" (Chefdk/CDK)
 	chefdk_1.3.43-1_amd64.deb
 
 2. Install the debian package using
@@ -37,11 +38,8 @@ ChefDK Installation:
 
 Chefdk uninstallation:
 ========================
-# check the package if it's installed
-$ dpkg --list | grep chefdk
-
-# Uninstall 'chefdk' package
-$ sudo dpkg -P chefdk
+dpkg --list | grep chefdk
+sudo dpkg -P chefdk
 
 
 DAY-2:
@@ -57,11 +55,11 @@ Chef Syntax:
 
 Recipe Syntax:
 ===============
-		resource 'NAME' do
-		  property   value
-		  property   value
-		  property   value	
-		end
+	resource 'NAME' do
+	    parameter1  'value1'
+	    attibute2   value2
+		property3   value3
+	end
 
 # Simplest form of Chef recipe code.
 
@@ -72,16 +70,16 @@ Recipe Syntax:
 	
 	--> file - is called as a Resource. The file resource
 		is used to manage a file on a computer. 
-	--> deployment.txt - name_attribute/value of the resource.
+	--> deployment.txt - name_attribute/value for that resource.
 	--> It can be a single quote or double.
 	--> do - is a clause, denotes the start of a block.
 	--> end - is closing pair for do.
-	--> content - is called as attribute/property of "file" resource.
-	--> indentation - two spaces
+	--> content - is called as attribute/parameter/property of "file" resource.
+	--> indentation - two spaces.
 
 What is Resource:
 	Resources are building blocks used to define specific parts of infrastructure.
-	Resource defines actions for Chef to perform.
+Resource defines actions for Chef to perform.
 
 		
 #
@@ -95,7 +93,7 @@ Chef Concept: Tell WHAT, Not HOW.
 
 - Chef refers recipe and decides how to put the machine in
 	desired configuration by reasoning about the current
-	state of the system(Idompotency behaviour).
+	state of the system(Idompotency).
 
 	As opposed to shell/any scripting where we write 1000 of lines of code(HOW part), in Chef, you just specify "WHAT" not "HOW".
 
@@ -106,12 +104,9 @@ DAY-3:
 	- user
 	- cron
 	- directory
-    - execute
 	- package
 	- apt-update
 	- template
-	- cookbook_file
-
 
 
 # Roll back : Tell Chef what not to do.
@@ -119,8 +114,7 @@ DAY-3:
 	  action :delete
 	end 
 
-- :delete is called "symbol"
-
+- :delete is called "symbol".
 
 #
 Chef in production environment:
@@ -138,7 +132,7 @@ Chef server: Central repository that contains the cookbooks you write and inform
 
 Node: is a computer that is managed by a chef server. ex: computer in your QA/Prod environments.
 
-Knife:  Knife is a command that enables us to communicate with Chef 
+Knife:  Knife command enables us to communicate with Chef 
 		server from workstation.
 		Knife is an interface between your workstation and 
 		Chef server.
@@ -149,23 +143,21 @@ Hosted Chef server setup:
 ============================
 1. Sign up for hosted Chef (https://manage.chef.io/login)
 2. Create an organization/Project	
-	Go to Administration --> Organizations --> Create --> Give a Project name.
+	Go to Administration --> Organizations --> Create --> Project name.
 
 Work station Setup:
 ======================
-1. create a project directory "wiculty/.chef"
+1. create a project directory "flipkart/.chef"
 
 2. configure knife to talk to Chef server
 	knife requires two files to talk to the Chef server
 		1. username.pem (RSA private key ) 
 		2. knife.rb (knife configuration file)
 	
-Generate these two files from 'hosted Chef server' and place them under "wiculty/.chef" directory to establish the connection between your workstation and the chef server.
+Generate these two files from 'hosted Chef server' and place them under "flipkart/.chef" directory to establish the connection between your workstation and the chef server.
 	
 How do you generate knife.rb & username.pem files from chef server?
-	
-	- Go to Hosted chef and Login
-	- Generate knife.rb: Administration--> click on organization--> generate knife config
+	- Generate knife.rb: Administration--> click on organization-->generate knife config
 	- Generate username.pem: Administration--> Users --> click on your Username --> "Reset key"
 
 3. Validate Chef server conection from workstation:
@@ -178,8 +170,8 @@ DAY-5:
 Write Cookbook:
 =================
 # Usually cookbooks goes into 'cookbooks' folder
-$ mkdir flipkart/cookbooks
-$ cd cookbooks
+$ mkdir wiculty1/cookbooks
+$ cd wiculty1/cookbooks
 
 #
 Clone a sample cookbook from git hub.
@@ -195,8 +187,8 @@ $ knife cookbook list
 Bring up the Ubuntu "Node":
 ================================
 1)
-- Write a Dockerfile to create a node container
-	Take this 'Dockerfile' from "Docker&Chef_Integration" folder (uploaded to git)
+- Write a Dockerfile to create a docker node
+	Take this Dockerfile from "Docker&Chef_Integration" folder
 
 2)
 - create docker image using
@@ -211,13 +203,13 @@ Bring up the Ubuntu "Node":
 Bootstrap the node:
 - The bootstrap process connects workstation to your node over SSH.
 
-knife bootstrap 172.17.0.2 --ssh-user gamut --ssh-password 'gamut' --sudo --use-sudo-password --node-name gamut --run-list 'recipe[learn_chef_apache2]'		 
+knife bootstrap 172.17.0.2 --ssh-user gamut --ssh-password 'gamut' --sudo --use-sudo-password --node-name gamut --run-list 'recipe[learn_chef_apache2]'	 
 
 - Bootstrap performs below steps:
 	1. Installs chef-client in node.
 	2. Associates the node to Chef server.
- 	3. Runs chef-client command i.e downloads given cookbook from Chef servers
-		and executes it (i.e learn_chef_apache2).
+ 	3. Downloads given cookbook from Chef servers and executes it.
+       (i.e learn_chef_apache2).
 
 To verify, run below commands..
 	$ knife node list
@@ -251,11 +243,10 @@ This role concept describes what cookbooks need to be executed in a node.
 Creating Roles:
 ================
 High level Notes:
- 1 Create a 'role' directory in your workstation
- 2 Write Json file to create a role with some name and specify recipes/cookbooks 
-   of that Role
+ 1 Create a role in your workstation
+ 2 Attach recipes/cookbooks to the Role
  3 Upload the Role to Chef server
- 4 Attach the node to Role
+ 4 Attach node to the role
  5 Run chef-client in the node
 
 #
@@ -271,35 +262,29 @@ Upload Roles to chef server:
 $ knife role from file roles/web.json
 
 #
+Check if Role is created on your Chef server:
+$ knife role list
+
+#
+Check the Roles details / recepies attached to the role:
+$ knife role show web	
+
+#
 Set run-list to our node / Set Role to our node / Attache the node to role
 $ knife node run_list set gamut "role[web]" --> Add the node to a Role
+$ knife node run_list remove gamut role[web] --> Remove the node from a Role
 
+#
+Check the run-list of our node:
+$ knife node show gamut --run-list	
 
 #
 Login to the node and initialte "chef-run" manually.
 $ chef-client
 
 #
-Verification commands
-
-- How do you check the run-list of a node (Or) How do you know what cookbooks are configured to run in a node
-	$ knife node show gamut --run-list	
-
-- Remove the node from a Role
-	$ knife node run_list remove gamut role[web]
-
-- Check if Role is created on your Chef server:
-	$ knife role list
-
-- Check the Roles details / recepies attached to the role:
-	$ knife role show web	
-
-
 Creating Cookbooks:
 ====================
-Project:1 - Configuring nginx
-===========
-
 # Create a cookbook called 'nginx' in cookbooks directory
 1. $ chef generate cookbook nginx
 
@@ -310,9 +295,8 @@ Project:1 - Configuring nginx
 
 Recipe code:
 ---------------
-apt_update 'Update the apt cache daily' do
-  frequency 86_400
-  action :periodic
+execute "run apt-get update command" do
+  command "apt-get update"
 end
 
 package "nginx" do
@@ -329,8 +313,8 @@ end
 ----------------	
 
 4. Place our application code in below directory for deployment
-	cd cookbooks/nginx/files/default
-	vim index.html
+	cd cookbooks/nginx/files
+vim index.html
 index.html code:
 -----------------------
 <html>
@@ -358,77 +342,11 @@ $ sudo chef-client
 
 	http://172.17.0.2:80
 
-Creating Cookbooks:
-====================
-Project:2 - Gamutkart application deploymen with Chef
-===========
-# Create a cookbook called 'gamutkart' in cookbooks directory
-1. $ chef generate cookbook gamutkart
-
-#
-2. cd cookbooks/gamutkart
-
-3. cd recipes; vim default.rb (write a recipe)
-
-Recipe code:
----------------
-apt_update 'run update command daily once' do
-  frequency 86_400
-  action :periodic
-end
-
-package 'openjdk-8-jdk' do
-  action :install
-end
-
-ENV['JAVA_HOME'] = '/usr'
-
-cookbook_file '/home/gamut/apache-tomcat-8.5.38.tar.gz' do
-  source 'apache-tomcat-8.5.38.tar.gz'
-end
-
-execute 'extract tar file' do
-  command 'cd /home/gamut; tar -zxvf apache-tomcat-8.5.38.tar.gz'
-end
-
-cookbook_file '/home/gamut/apache-tomcat-8.5.38/webapps/gamutkart.war' do
-  source 'gamutkart.war'
-end
-
-execute 'start tomcat server' do
-  command '/home/gamut/apache-tomcat-8.5.38/bin/startup.sh'
-end
-----------------	
-
-4. Place our gamutkart.war file and tomcat tar.gz files in below directory for deployment
-	cookbooks/nginx/files/gamutkart.war
-	cookbooks/nginx/files/apache-tomcat-8.5.38.tar.gz
-
-
-5. upload the cookbooks	
-    knife cookbook upload gamutkart
-
-9. Bootstrap the node
-
-10. Create a ROLE(role name: deployment) (add role name, cookbook name in web.json roles configuration file) (Refer roles concept above)
-
-10A.
-Add 'app-server' node to the role using below command
-$ knife node run_list set gamut role[deployment] 
-
-11. Run below comamnd in the node for implementing the cookbook
-$ sudo chef-client
-	
-12. Test application deployment using below URL
-
-	http://172.17.0.2:8080/gamutkart
-
 
 #
 Running chef-client command from all servers:
 - use crontab
 - use shell scripts
-- manuall chef-client run
 
 
 DAY-7:
@@ -442,18 +360,6 @@ $ knife cookbook delete learn_chef_apache2 --all --yes
 
 # Delete the role from the Chef server
 $ knife role delete web --yes
-
-
-
-Questions:
--- How do you trigger 'chef-client' comamnd from WS
-
-$ knife ssh 'name:gamut' 'sudo chef-client' --ssh-user gamut --ssh-password 'gamut' --attribute 172.17.0.2
-
-where, In "name:gamut", 'gamut' is name of the node.
-		172.17.0.2 is IP of the node(i.e gamut)
-
-
 
 
 
