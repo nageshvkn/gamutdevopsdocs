@@ -332,8 +332,8 @@ If two users modify the same file in source and target branches and if the same 
 - Open the conflict file--> remove conflict markers--> select the right content 
   based on the discussion with developers
 - git add
-- git commit
-- git push (after compilation and some basic sanity testing)
+- git commit (after compilation and some basic sanity testing)
+- git push
 
 #	
 git remote
