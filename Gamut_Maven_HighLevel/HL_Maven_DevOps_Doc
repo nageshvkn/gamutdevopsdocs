@@ -17,8 +17,8 @@ What is Maven? Why we need a build tool?
 Installation
 	- Download JDK 1.8 and extract it to your favourite location.
 	- Download lastest Maven and extract it to your favourite location.
-	- Set-up below Environment variables for Maven and JDK in order to run Maven
-	  and JDK commands from any directory in th system.
+	- Set-up below Environment variables for Maven and JDK in order to run the 
+		commands from any directory in th system.
 		1. JAVA_HOME
 		2. M2_HOME
 		3. PATH
@@ -51,7 +51,7 @@ Build and Deployment E2E work-flow and basics
 	- What is Deployment
 	- Environment
 	- Dev, QA & DevOps teams Interaction and Collaboration.
-
+	
 #6
 Maven's standard project layout
 =================================
@@ -161,7 +161,7 @@ Maven repositories
 
 #13
 	$ mvn deploy (uploads jar files to private (nexus) repository)
-		
+
 
 #14
 "mvn clean" 	
