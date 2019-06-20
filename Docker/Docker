@@ -227,7 +227,7 @@ DAY-3:
 	- docker kill dgamut (Forcibly stop the container with SIGKILL)
 
 # Show last 4 containers (stopped/running)
-	- docker ps -n4
+	- docker ps -a -n4
 
 
 # Find More About The Container
@@ -243,6 +243,12 @@ DAY-3:
 	
  Note: use --format (OR) -f  	
 
+#
+Memory allocation
+- Allocate dedicated memory for a container at the time of creation
+        $ docker run -it --name db-server2 -m 1g ubuntu /bin/bash
+- Allocate dedicated memory for an existing container
+        $ docker update -m 1024m jenkins-server
 
 - Remove all running containers
 		docker rm -f $(docker ps -q)
