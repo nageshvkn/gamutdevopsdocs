@@ -6,7 +6,7 @@ Day-1:
 Diff between..
 - Physical server
 - Virtual machine
-- Docker container.
+- Docker container
 
 VM, Docker, usage in realtime
 
@@ -147,7 +147,13 @@ $ passwd gamut
 - Connect to the container using ssh from 172.17.0.2 or any other machine.
 $ ssh gamut@172.17.0.3
 
-
+# 
+Enable root access for a container
+- Add below line in "/etc/ssh/sshd_config"
+        PermitRootLogin yes
+- Restart ssh server
+        $ service ssh restart
+        
 #
 Shotdown a container
 "exit" to stop the container
@@ -157,6 +163,8 @@ wk-10:30 am
 ---
 # List all containers(stopped and running)
 $ sudo docker cotainer ls -a
+$ docker ps -a
+
 
 # List running containers only
 	sudo docker cotainer ls
@@ -193,7 +201,7 @@ $ docker rm ID/name
 $ docker rm -f $(docker container ls -f status=running -q)
 $ docker rm -f $(docker container ls -q)
 
-# Delete stopped containers only
+# List stopped containers only
 $ docker container ls -f status=exited
 
 # Starting a stopped container
