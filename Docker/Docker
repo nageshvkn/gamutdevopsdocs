@@ -6,7 +6,7 @@ Day-1:
 Diff between..
 - Physical server
 - Virtual machine
-- Docker container.
+- Docker container
 
 VM, Docker, usage in DevOps.
 
@@ -141,14 +141,16 @@ $ passwd gamut
 - Connect to the container using ssh from 172.17.0.2 or any other machine.
 $ ssh gamut@172.17.0.3
 
-# Enable root user over ssh
-Add below line under "# Authentication:" in "/etc/ssh/sshd_config"
-	PermitRootLogin yes
-
+# 
+Enable root access for a container
+- Add below line in "/etc/ssh/sshd_config"
+        PermitRootLogin yes
+- Restart ssh server
+        $ service ssh restart
+        
 #
 Shotdown a container
 "exit" to stop the container
-
 
 # List all containers(stopped and running)
 $ sudo docker cotainer ls -a
@@ -191,7 +193,7 @@ $ docker rm ID/name
 $ docker rm -f $(docker container ls -q)
 $ docker rm -f $(docker ps -q)
 
-# list stopped containers only
+# List stopped containers only
 $ docker container ls -f status=exited
 
 # Starting a stopped container
@@ -238,6 +240,12 @@ $ docker container ls -f status=exited
 	
  Note: use --format (OR) -f  	
 
+#
+Memory allocation
+- Allocate dedicated memory for a container at the time of creation
+        $ docker run -it --name db-server2 -m 1g ubuntu /bin/bash
+- Allocate dedicated memory for an existing container
+        $ docker update -m 1024m jenkins-server
 
 # Remove all running containers
 $ docker rm -f $(docker ps -q)
