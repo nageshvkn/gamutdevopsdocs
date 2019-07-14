@@ -6,7 +6,7 @@ Day-1:
 Diff between..
 - Physical server
 - Virtual machine
-- Docker container
+- Docker container.
 
 VM, Docker, usage in DevOps.
 
@@ -141,16 +141,14 @@ $ passwd gamut
 - Connect to the container using ssh from 172.17.0.2 or any other machine.
 $ ssh gamut@172.17.0.3
 
-# 
-Enable root access for a container
-- Add below line in "/etc/ssh/sshd_config"
-        PermitRootLogin yes
-- Restart ssh server
-        $ service ssh restart
-        
+# Enable root user over ssh
+Add below line under "# Authentication:" in "/etc/ssh/sshd_config"
+	PermitRootLogin yes
+
 #
 Shotdown a container
 "exit" to stop the container
+
 
 # List all containers(stopped and running)
 $ sudo docker cotainer ls -a
@@ -193,7 +191,7 @@ $ docker rm ID/name
 $ docker rm -f $(docker container ls -q)
 $ docker rm -f $(docker ps -q)
 
-# List stopped containers only
+# list stopped containers only
 $ docker container ls -f status=exited
 
 # Starting a stopped container
@@ -219,12 +217,6 @@ $ docker container ls -f status=exited
 # Show last 4 containers (stopped/running)
 	$ docker ps -n4
 
-# Displat Live resource usage statistics of a container
-	$ docker stats --no-stream <container-name>
-	$ docker stats --no-stream --all
-	$ docker stats --no-stream --format {{.MemUsage}} sleepy_shannon
-	$ docker stats --no-stream --format {{.CPUPerc}} sleepy_shannon
-
 # Find More About The Container
 - 'docker inspect' comamnd interrogates the container and returns complete 
    information about it.
@@ -238,14 +230,25 @@ $ docker container ls -f status=exited
 
 	$ docker inspect -f '{{.NetworkSettings.Networks.bridge.IPAddress}}' tomcatserver1
 	
- Note: use --format (OR) -f  	
+ Note: use --format (OR) -f  
+
+STATS:
+==========
+# Display Live resource usage statistics of a container
+	$ docker stats --no-stream <container-name>
+	$ docker stats --no-stream --all
+	$ docker stats --no-stream --format {{.MemUsage}} sleepy_shannon
+	$ docker stats --no-stream --format {{.CPUPerc}} sleepy_shannon
 
 #
-Memory allocation
-- Allocate dedicated memory for a container at the time of creation
-        $ docker run -it --name db-server2 -m 1g ubuntu /bin/bash
-- Allocate dedicated memory for an existing container
-        $ docker update -m 1024m jenkins-server
+Allocating memory for a container (below command allocates 1 GB RAM)
+	$ docker run -it --name tomcat-server -m 1g ubuntu /bin/bash
+	$ docker run -it --name tomcat-server -m 1024m ubuntu /bin/bash 
+
+#
+Updating memory of a container (which is exist already) 
+	$ docker update -m 2024m tomcat-server	
+
 
 # Remove all running containers
 $ docker rm -f $(docker ps -q)
@@ -408,8 +411,8 @@ index.html:
 Testing Image
 
 # Remove the local image so that it will be downloaded from Docker Hub.
-	$ docker rmi ubuntu
-	$ docker image rm ubuntu
+	$ docker rmi nageshvkn/nginx-image
+	$ docker image rm nageshvkn/nginx-image
  
 # Creating a new container from our image
 	$ docker run -it --name nginx-container nageshvkn/nginx-img /bin/bash
@@ -571,25 +574,37 @@ Run docker command without sudo.
 	5. Delete the group
 		$ sudo groupdel docker
 
-#
-Allocating memory for a container (below command allocates 1 GB RAM)
-	$ docker run -it --name tomcat-server -m 1g ubuntu /bin/bash
-	$ docker run -it --name tomcat-server -m 1024m ubuntu /bin/bash 
-
-#
-Updating memory of a container (which is exist already) 
-	$ docker update -m 2024m tomcat-server
-
-STATS:
-==========
-$ docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t {{.MemUsage}}" tomcat1
-
-$ docker stats --no-stream --format {{.MemUsage}} 
-$ docker stats --no-stream --format {{.CPUPerc}}
-$ docker stats --no-stream --format {{.Container}}
+Qns:
+--> Docker port forwarding
 
 
-
+Volumes:
+===============
+# List all volumes available in host machine
+	$ docker volume ls
  
- 
+# Create a new Volume
+	$ docker volume create deployment_code
+
+# Check Mount point directory
+	$ docker inspect deployment_code
+
+# Mount Volume(deployment_code) to a new container
+	$ docker run -it -v deployment_code:/deployment_code ubuntu:16.04 /bin/bash
+
+# Create 'Read-only' Volumes
+	$ docker run -it -v deployment_code:/deployment_code:ro ubuntu:16.04 /bin/bash
+
+# Removing a Volume
+	$ docker volume rm deployment_code
+
+# Remove all unused Volumes
+	$ docker volume prune
+
+# Note:
+Creating Volume with your own directory in host machine
+	$ docker run -it -v /home/gamut/Distros:/Distros ubuntu /bin/bash
+
+
+
 
