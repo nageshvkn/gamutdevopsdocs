@@ -9,6 +9,10 @@ $ useradd -m -d /home/gamut -s /bin/bash gamut
 3# Setup the password for gamut
 $ passwd gamut
 
+3A#
+Add gamut user to '/etc/sudoers' file so that gamut user can use sudo command
+	add this line as line 21:    gamut   ALL=(ALL:ALL) ALL
+
 4#
 Install SSH so that other machines can connect to this jenkins server
 	$ apt-get update
@@ -58,7 +62,7 @@ http://172.17.0.2:8080/jenkins
 
 - Select 'install all suggested plugin' in the 2nd screen
 
-- Create your won user and setup password
+- Create your own user and setup password
 	
 #
 Install Git and Maven after creating the project.
