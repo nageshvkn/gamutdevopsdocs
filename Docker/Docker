@@ -234,7 +234,7 @@ $ docker container ls -f status=exited
 
 STATS:
 ==========
-# Display Live resource usage statistics of a container
+# Display Live 	 usage statistics of a container
 	$ docker stats --no-stream <container-name>
 	$ docker stats --no-stream --all
 	$ docker stats --no-stream --format {{.MemUsage}} sleepy_shannon
@@ -275,12 +275,12 @@ Agenda:
 # Advantages of Images in Build and Deployments OR DevOps world!
 
 a. Works In my machine problem.
-b. Develo	ry quickly
+b. Developers can quickly setup local development environments as we can include all dependencies in the image and create containers.
 c. Is there an Issue? don't spend time to troubleshoot it. Just throw the machine which has the issue away and create new instantly.
-d. Auto scale your environment very easilly
+d. Auto scale your environment very easilly.
 e. No need to live with complex, redundant configurations. You can create disposable environments.
-f. You can leverage/utilize local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then why again you need extra hardware?
-g. You can create new environments within very few minutes (ex: create new performance testing environment within few minutes before the release)
+f. You can leverage/utilizes local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then why again you need extra hardware?
+g. You can create new environments within few minutes (ex: create new performance testing environment within few minutes before the release)
 
 # Listing docker images
 - $ docker image ls
@@ -317,7 +317,7 @@ sudo apt-get purge nginx nginx-common
 		2. docker "build" cmd & Dockerfile
 
 # Creating docker image using "docker commit" command
-
+=============================
 PROJECT-1:
 	Create an image which will ship your application code along with nginx configuration.
 
@@ -398,10 +398,7 @@ index.html:
 # Listing docker image
 	$ docker image ls
 
-# Creating docker hub account
-- Docker Hub (https://hub.docker.com/)
-	- Each Repository can contain multiple images
-	- Images are Identified using tags.
+# Create an account in docker hub
 
 # Pushing custom images to docker repository
 	$ docker login
@@ -481,20 +478,87 @@ Docker Image layers
 		Kernel
 
 
+Interview Notes:
+===============
+#
+Docker Benefits:
+=================
+1. Portability: 
+	ship environments from one type of infrastructure to another without building up new VMs and tearing down the old ones.
+
+2. Quick deployment/Teardown:
+	With a single command, you can spin up new containers or tear down existing ones. If you want to clone a new VM, you are looking at waiting for close to or over a few hours. With Docker, it will take a few minutes to achieve what you need.
+
+3. Consistency:
+	No more of the "works on my machine!" excuse. As everyone uses the same images to work, consistency is always guaranteed. All the container will act the same in your environment as it will on others.
+
+4. Managing infrastructure-like code:
+When it comes to upgrades, you can simply update your Dockerfile, and then tear down the old one. This helps not only with updates, but it can also help with rollbacks as well.
+
+
+# 
+Manage/Run Docker as a non-root user
+==========================
+Run docker command without sudo.	
+------
+	1. Create the "docker" group
+		$ sudo groupadd docker
+
+	2. Add/Remove user to/from the group
+		$ sudo gpasswd -a gamut docker	(add)
+		$ sudo gpasswd -d gamut docker	(remove)
+
+	3. Logout and Login back so that your group membership
+	   is re-evaluated.
+
+-- verification and cleanup
+
+	4. Check group existance:
+		$ sudo grep docker /etc/group
+
+	5. Delete the group
+		$ sudo groupdel docker
+
+Volumes:
+===============
+# List all volumes available in host machine
+	$ docker volume ls
+ 
+# Create a new Volume
+	$ docker volume create deployment_code
+
+# Check Mount point directory
+	$ docker inspect deployment_code
+
+# Mount Volume(deployment_code) to a new container
+	$ docker run -it -v deployment_code:/deployment_code ubuntu:16.04 /bin/bash
+
+# Create 'Read-only' Volumes
+	$ docker run -it -v deployment_code:/deployment_code:ro ubuntu:16.04 /bin/bash
+
+# Removing a Volume
+	$ docker volume rm deployment_code
+
+# Remove all unused Volumes
+	$ docker volume prune
+
+# Note:
+Creating Volume with your own directory in host machine
+	$ docker run -it -v /home/gamut/Distros:/Distros ubuntu /bin/bash
+
+#
+Docker Registry
+Docker Repository
+Image tags
+
 DAY-8:
-Gamutkart Real application;
+Gamutkart Real application
 ============================
 Agenda:
 - Build and deployments with Docker containers.
 - Real Containerization with Docker.
 - Creating dockerized environments.
 - Dockerizing your application.
-
-Question:
-How are you using docker containerization tool for your builds and deployments?
-Can you explain your Docker environment?
-Can you explain how you have implemented Docker in your project?
-Given a chance how do you dockerize your application?
 
 
 1. Clone the source code from Git or any other V.C.S
@@ -528,82 +592,14 @@ Given a chance how do you dockerize your application?
 	$ http://IP:8080/gamutkart
 
 #
-Docker and Jenkins Integration
+	Docker and Jenkins Integration
 
 
-Notes:
-======
-#
-Docker Benefits:
-=================
-1. Portability: 
-	ship environments from one type of infrastructure to another without building up new VMs and tearing down the old ones.
-
-2. Quick deployment/Teardown:
-	With a single command, you can spin up new containers or tear down existing ones. If you want to clone a new VM, you are looking at waiting for close to or over a few hours. With Docker, it will take a few minutes to achieve what you need.
-
-3. Consistency:
-	No more of the "works on my machine!" excuse. As
-everyone uses the same images to work, consistency is always guaranteed.
-	All the container will act the same in your environment as it will on others.
-
-4. Managing infrastructure-like code:
-When it comes to upgrades, you can simply update your Dockerfile, and then tear down the old one. This helps not only with updates, but it can also help with rollbacks as well.
-
-# 
-Manage/Run Docker as a non-root user
-==========================
-Run docker command without sudo.	
-------
-	1. Create the "docker" group
-		$ sudo groupadd docker
-
-	2. Add/Remove user to/from the group
-		$ sudo usermod -aG docker gamut (add)
-		$ sudo gpasswd -a gamut docker	(add)
-		$ sudo gpasswd -d gamut docker	(remove)
-
-	3. Logout and Login back so that your group membership
-	   is re-evaluated.
-
--- verification and cleanup
-
-	4. Check group existance:
-		$ sudo grep docker /etc/group
-
-	5. Delete the group
-		$ sudo groupdel docker
 
 Qns:
---> Docker port forwarding
-
-
-Volumes:
-===============
-# List all volumes available in host machine
-	$ docker volume ls
- 
-# Create a new Volume
-	$ docker volume create deployment_code
-
-# Check Mount point directory
-	$ docker inspect deployment_code
-
-# Mount Volume(deployment_code) to a new container
-	$ docker run -it -v deployment_code:/deployment_code ubuntu:16.04 /bin/bash
-
-# Create 'Read-only' Volumes
-	$ docker run -it -v deployment_code:/deployment_code:ro ubuntu:16.04 /bin/bash
-
-# Removing a Volume
-	$ docker volume rm deployment_code
-
-# Remove all unused Volumes
-	$ docker volume prune
-
-# Note:
-Creating Volume with your own directory in host machine
-	$ docker run -it -v /home/gamut/Distros:/Distros ubuntu /bin/bash
+--mrng-9AM-daily--
+--> Volumes
+--> Docker compose
 
 
 
