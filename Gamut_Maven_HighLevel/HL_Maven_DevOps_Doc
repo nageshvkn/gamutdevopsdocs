@@ -42,17 +42,17 @@ Verify Installation
 	$ javac -version
 	$ mvn --version
 
+
 DAY-2:
 
 #5 TEST YOUR KOWLEDGE
 Build and Deployment E2E work-flow and basics
-	- What is compilation & why we compile the source code
+	- What is compilation & why we compile the source code?
 	- Packaging sequence for Java application
 	- What is Build
 	- What is Deployment
 	- Environment
 	- Dev, QA & DevOps teams Interaction and Collaboration.
-
 
 #6
 Maven's standard project layout
@@ -83,24 +83,34 @@ pom.xml  - Maven's build file using which we can
 				compilation, test runs, jar/war creation,
 				deployments...etc.
 
-#7
-Creating a Java Project using Maven:
-
-$ mvn archetype:generate -DgroupId=com.gamutkart -DartifactId=gamutkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false
 
 DAY-3:
 #8
 Building the maven project:
 -----------------------
-Execute "mvn install":
 
-	'mvn install' command executes below maven "build life cycle" phases automatically. 
+# Install git
+	$ sudo apt-get update
+	$ sudo apt-get install git
+	$ git --version --> verify git installation.
+
+#
+Clone the code from Git
+	$ git clone https://github.com/nageshvkn/flipkart.git
+
+#
+Building the project using Maven. Use below command.
+	$ mvn install
+
+
+$ mvn install - command executes below "build life cycle phases" automatically. 
 
 	- initialize
 		prepares project with initial pre-
 		requisites ex: creating necessary directory structure.
 	- validate
 		validate project's folder structure	
+
 	- compile
 		compiles "main" java code.
 	- test-compile
@@ -113,7 +123,7 @@ Execute "mvn install":
 		copy built artifacts i.e jar/war file into local repository $USER_HOME/.m2
 		folder.
 
-#9
+#
 Verify Built artifacts:
 --------------------------
 Go to "target" folder and observe below.
@@ -132,7 +142,8 @@ Go to "target" folder and observe below.
 
 	flipkart-1.0-SNAPSHOT.jar: jar file of main code
 
-Note: first time when we run 'mvn install' command, Maven downloads all missing dependencies into .m2  from maven's central repository.
+Note:
+first time when we run 'mvn install' command, Maven downloads all missing dependencies into .m2  from maven's central repository.
 So, we need to have internet when we run 'mvn install' command first time.
 
 
@@ -144,13 +155,17 @@ Artifact path in local repository .m2
 - Package naming convention:
 	artifactId-version.jar/war
 
+#
+Understanding pom.xml file structure
+
 
 DAY-4:
 #11:	
 Maven Automatic Dependency resolution feature
 	
 	- Direct dependency
-	- Transitive dependency (hamcrest is dependency of junit and it becomes transitive dependency for our code)
+	- Transitive dependency
+		(hamcrest is dependency of junit and it becomes transitive dependency for our code)
 
 
 Maven way of dependency addition, detection from different repositories.
@@ -166,12 +181,11 @@ Maven repositories
 
 
 #14
-"mvn clean" 	
-
+"mvn clean" 
 
 # Skip test cases
-$ mvn -DskipTest
-$ mvn -Dmaven.t	est.skip=true
+$ mvn install -DskipTest (skip running test cases)
+$ mvn install -Dmaven.test.skip=true (skips compilation and test case execution)
 
 #18
 Where Maven's coordinates / GAV parameters are helpful?
@@ -181,32 +195,21 @@ Where Maven's coordinates / GAV parameters are helpful?
 	- To define a dependency in pom.xml file.
 
 #19
-WEB Application Build and Deployment.
-====================================
-To create a project which is suitable for Web applicatin, use below option.
-	-DarchetypeArtifactId=maven-archetype-webapp
+PROJECT-01: WEB Application Build and Deployment.
 
-Complete command to create web application project structure:
+------------
+Goal: 
+	- Create a project for flipkart web application and perform end-to-end build and deployment
+	- Handling build and deployment for any web application
+
+Steps:
+------
+
+Create web application project structure using below command (This variable we use for web application project creation: -DarchetypeArtifactId=maven-archetype-webapp)
 ----------------------
 	$ mvn archetype:generate -DartifactId=flipkart -DgroupId=com.flipkart -
 	  Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-
 	  archetype-webapp
-
-
-PROJECT-01:
-------------
-Goal: 
-	- Create a project for flipkart web application and perform end-to-end build and deployment
-	- To be able to handle build and deployment for any web application
- 
-===========
-Steps:
--------
-#
-Create Maven web application project usgin below command (Usually we clone the code from Git)
-
-$ mvn archetype:generate -DgroupId=com.flipkart -DartifactId=flipkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-archetype-webapp
-
 #
 Build the application using below Maven command
 $ cd flipkart
@@ -260,22 +263,8 @@ $ git clone https://github.com/nageshvkn/gamutkart2.git
 Build "gamutkart" application using below command.
 $ mvn install
 
-- When we run 'mvn install' command, 	by default maven reads pom.xml file and runs the given goal/target(i.e install). According to Maven's build lifecycle, maven executes all required build steps such as:
-	validate
-	initialize
-	compile
-	test
-	package
-	install
-	
-'mvn install' command reads pom.xml file for all build configurations before it executes it's lifecycle build steps. ex: it checks GAV(groupId, artifactId and version), package type(jar,war or ear), downloads all the required dependencies from central or private repositories and compiles main and test code.
-
-Based on the package and <finalName> attribute, it creates the artifact(i.e war file) with given name. And copies into ~/.m2/repository/${groupId}/${artifactId}/${version}/${artifactId}-${version}.war
-
-Assuming it's web application and .war is our final artifact, we need to deploy it to some application server like tomcat to make application accessible by the end user. 
-
 4. 
-Deploy gamutkart.war application to remote server deployment location(i.e $TOMCAT_HOME/webapps) using below command.
+Deploy 'gamutkart.war' application to remote server deployment location(i.e $TOMCAT_HOME/webapps) using below command.
 	$ cp target/gamutkart.war $TOMCAT_HOME/webapps
 
 4A.
@@ -300,4 +289,23 @@ We can check this file and if there are any errors/exceptions, we provide this i
 Note: If you want to change the port number, Go to below file and change the port number where you see something like this. ( port="8080" protocol="HTTP/1.1")
 	$ vim $TOMCAT_HOME/conf/server.xml
 
+
+#
+Interview Notes:
+
+Maven Life cycle phases:
+========================
+- When we run 'mvn install' command, 	by default maven reads pom.xml file and runs the given goal/target(i.e install). According to Maven's build lifecycle, maven executes all required build steps such as:
+	validate
+	initialize
+	compile
+	test
+	package
+	install
+	
+'mvn install' command reads pom.xml file for all build configurations before it executes it's lifecycle build steps. ex: it checks GAV(groupId, artifactId and version), package type(jar,war or ear), downloads all the required dependencies from central or private repositories and compiles main and test code.
+
+Based on the package and <finalName> attribute, it creates the artifact(i.e war file) with given name. And copies into ~/.m2/repository/${groupId}/${artifactId}/${version}/${artifactId}-${version}.war
+
+Assuming it's web application and .war is our final artifact, we need to deploy it to some application server like tomcat to make application accessible by the end user. 
 
