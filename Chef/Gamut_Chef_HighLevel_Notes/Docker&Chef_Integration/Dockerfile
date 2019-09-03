@@ -9,7 +9,5 @@ RUN apt-get install sudo
 RUN useradd -m -d /home/gamut -s /bin/bash gamut
 RUN echo "gamut:gamut" | chpasswd
 RUN sed -i '21i gamut    ALL=(ALL:ALL) ALL' /etc/sudoers
-USER gamut
-WORKDIR /home/gamut
 ENTRYPOINT echo gamut | sudo -S service ssh start && /bin/bash
 

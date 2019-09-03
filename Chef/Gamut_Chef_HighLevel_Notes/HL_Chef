@@ -1,8 +1,6 @@
 		Chef - configuration management tool
 	=============================================
-DAY-1:
 # What is Chef / Configuration mgmnt tool applications, goals.
-
 	- Chef is an automation platform that configures and
 	  manages the infrastructure.
 	  
@@ -24,7 +22,6 @@ DAY-1:
 	- Chef can automatically detect the faults and repair 
 	  them.
 	  
-
 ChefDK Installation:
 ===================
 1. Download "Chef Development Kit" (Chefdk/CDK)
@@ -41,8 +38,6 @@ Chefdk uninstallation:
 dpkg --list | grep chefdk
 sudo dpkg -P chefdk
 
-
-DAY-2:
 Chef Syntax:
 ============
 #
@@ -52,13 +47,12 @@ Chef Syntax:
 
 - Using recipe, you just specify "WHAT" disired configuration need to be present in a machine; rather than "HOW" it should be accomplished.
 
-
 Recipe Syntax:
 ===============
 	resource 'NAME' do
 	    parameter1  'value1'
 	    attibute2   value2
-		property3   value3
+	    property3   value3
 	end
 
 # Simplest form of Chef recipe code.
@@ -85,20 +79,19 @@ Resource defines actions for Chef to perform.
 #
 Chef Concept: Tell WHAT, Not HOW.
 	
-	Resources+Attributes = Recipe --> Chef:
-							   WHAT do I care about?
-										|
-							  Decides HOW & Performs Actions
+	Resources + Attributes = Recipe --> Chef:
+				        WHAT do I care about?
+						|
+				        Decides HOW & Performs Actions
 
 
 - Chef refers recipe and decides how to put the machine in
 	desired configuration by reasoning about the current
-	state of the system(Idompotency).
+	state of the system(i.e Idompotency).
 
 	As opposed to shell/any scripting where we write 1000 of lines of code(HOW part), in Chef, you just specify "WHAT" not "HOW".
 
 
-DAY-3:
 # Commonly used Chef resources
 	- file
 	- user
@@ -114,11 +107,11 @@ DAY-3:
 	  action :delete
 	end 
 
-- :delete is called "symbol".
+- :delete is called "symbol"
 
 #
 Chef in production environment:
-===================
+================================
 Chef Architecture:
 	workstation
 	chef server
@@ -165,8 +158,6 @@ How do you generate knife.rb & username.pem files from chef server?
 
 4. Now you are ready to write cookbooks in your workstatin and upload the same to the server.
 
-
-DAY-5:
 Write Cookbook:
 =================
 # Usually cookbooks goes into 'cookbooks' folder
@@ -226,8 +217,6 @@ Test your recipe locally before applying to PROD.
 	- Most of the times, we want to deploy chef code to sandbox environments that closely simulate a prod environment.
 	- It's not a good idea to run your experimental code directly in production before testing it in your sandbox env.
 
-
-DAY-6:
 # ROLES:
 - You can catergorize your machines logically using roles concept.
 This role concept describes what cookbooks need to be executed in a node.
@@ -327,7 +316,9 @@ index.html code:
 5. upload the cookbooks	
     knife cookbook upload nginx
 
-9. Bootstrap the node
+9. Bootstrap the node with below command
+
+$ knife bootstrap 172.17.0.2 --ssh-user gamut --ssh-password 'gamut' --sudo --use-sudo-password --node-name gamut
 
 10. Create a ROLE (add role name, cookbook name in web.json roles configuration file) (Refer roles concept above)
 
@@ -342,14 +333,56 @@ $ sudo chef-client
 
 	http://172.17.0.2:80
 
-
 #
 Running chef-client command from all servers:
+- manuall
 - use crontab
 - use shell scripts
 
+#
+Deployments using Chef - Deploy gamutkart application using Chef
+============================
+# Server setup:
+create an organization in chef server ( refer detailed explanation in above section 'Hosted Chef server setup')
 
-DAY-7:
+# Workstation setup:
+- create a project folder in your workstation ex: gamutkart
+
+- create 'cookbooks' '.chef' and 'roles' directories under gamutkart project
+
+- establish the connection between workstation and chef server (refer detailed explanation in above section 'Work station Setup')
+
+# create cookbook for deployments:
+- create cookbook in your workstation using '$ knife generate cookbook gamutkart2'
+  write a recipe for deployments (In git notes, refer 'Gamut_Chef_HighLevel_Notes--> deployment_with_chef'-->cookbooks--> gamutkart2 --> recipes --> default.rb for the revipe file)
+- build gamutkart2 application and copy gamutkart.war to "cookbooks/gamutkart2/files
+- copy 'apache-tomcat-8.5.38.tar.gz' to "cookbooks/gamutkart2/files"
+- upload the cookbook using 'knife cookbook upload gamutkart2'
+
+
+# create role:
+- create app-server.json in roles folder (In git notes, refer Gamut_Chef_HighLevel_Notes--> deployment_with_chef'--> roles for app-server.json)
+- upload role using '$ knife role from file roles/app-server.json'
+
+# create the node:
+- create the node, bootstrap and attach the node to the role using below command
+        $ docker run --name tomcat-server1 -it nageshvkn/basic-node4chef /bin/bash
+        $ knife bootstrap 172.17.0.2 --ssh-user gamut --ssh-password 'gamut' --sudo --use-sudo-
+        password --node-name tomcat-server1
+        $ knife node run_list set tomcat-server1 "role[app-server]"
+
+# perform Chef-run i.e run chef-client command in the node
+        $ chef-run
+- chef-client command should be able to talk to the server, download gamutkart2 cookbook and 
+  execute it.
+
+# Test Gamutkart application deployment in the node
+- open the browser and type the url... http://172.17.0.2:8080/gamutkart
+
+# Conclusion:
+- So, using Chef cookbooks, we are able to configure gamutkart application hosting automatically.
+
+
 CLEANUP:
 ======
 # Delete the node from the Chef server
