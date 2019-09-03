@@ -246,8 +246,8 @@ Syntax:
 Project:2 (Real-time End-to-End Build and Deployment Process)
 =================================
 Goals: 
-- Building the War for large real-time kinda application
-- Learning Deployments using tomcat Server
+- Building the War for large scale real-time kinda application
+- Learning Deployments with a dedicated tomcat Server
 
 Steps:
 ------------
@@ -283,7 +283,7 @@ Tomcat by default runs on port 8080. So application can be accessed with below U
 In case there is any issue in the application, errors will be logged in 
 "$TOMCAT_HOME/logs/catalina.2017-03-24.log" file.
 
-We can check this file and if there are any errors/exceptions, we provide this info to developers.
+We can check this file and if there are any errors/exceptions, we provide this information to developers.
 
 7.
 Note: If you want to change the port number, Go to below file and change the port number where you see something like this. ( port="8080" protocol="HTTP/1.1")
@@ -293,19 +293,22 @@ Note: If you want to change the port number, Go to below file and change the por
 #
 Interview Notes:
 
-Maven Life cycle phases:
-========================
-- When we run 'mvn install' command, 	by default maven reads pom.xml file and runs the given goal/target(i.e install). According to Maven's build lifecycle, maven executes all required build steps such as:
-	validate
-	initialize
-	compile
-	test
-	package
-	install
-	
-'mvn install' command reads pom.xml file for all build configurations before it executes it's lifecycle build steps. ex: it checks GAV(groupId, artifactId and version), package type(jar,war or ear), downloads all the required dependencies from central or private repositories and compiles main and test code.
+Explain Maven Life cycle phases:
+=============================================
+- When we execute '$ mvn install' command..
+	- By default maven reads 'pom.xml' file and runs the given target(i.e install).
+	  before running 'install' target, It will read GAV paramerters, packaging 
+		attribute for creating jar/war file and also downloads declared dependencies
+		from central/remote repositories. 
+	- According to Maven's build lifecycle, maven executes all required build steps 	  such as:
+		initialize - creates all necessary folder structure
+		validate   - validates project structure		
+		compile	   - compiles main code
+	    test-compile - compiles test code
+		test	     - executes test cases and generates reports
+		package		 - creates jar/war file
+		install		 - copies jar/war file into local repository i.e ~$USER_HOME/.m2
 
-Based on the package and <finalName> attribute, it creates the artifact(i.e war file) with given name. And copies into ~/.m2/repository/${groupId}/${artifactId}/${version}/${artifactId}-${version}.war
 
-Assuming it's web application and .war is our final artifact, we need to deploy it to some application server like tomcat to make application accessible by the end user. 
+ 
 
