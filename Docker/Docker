@@ -6,7 +6,7 @@ Day-1:
 Diff between..
 - Physical server
 - Virtual machine
-- Docker container.
+- Docker container
 
 VM, Docker, usage in DevOps.
 
@@ -29,7 +29,8 @@ Supported Platforms-
 
 Note:
 Linux containers can be created on Windows and OS X.
-HOW?- Windows Docker installer contains a tiny Linux virtual machine. Docker creates linux container on top of this tiny Linux VM.
+HOW?- Windows & Mac Docker installers contain a tiny Linux virtual machine.
+So, Docker creates linux container on top of this tiny Linux VM.
 
 
 Requirements:
@@ -97,9 +98,8 @@ $ sudo docker run -it ubuntu /bin/bash
 -it : provides interactive shell
 	
 ubuntu : Is an image and also called as "stock image" or "base image".
-			  This will be downloaded by default from 'Docker hub' when you run 
-			 'docker run' command first time.
-	
+			  This image will be downloaded from Docker hub when we run 'docker run' 
+			  command first time.	
 /bin/bash: shell program that will be installed in the terminal.
 
 
@@ -118,7 +118,7 @@ ubuntu : Is an image and also called as "stock image" or "base image".
 
 
 # SSH setup for containers
-Setup SSH in the containers so that they can communicate to each other
+Setup SSH in the containers so that they can communicate with each other
 
 - Create two containers
 		172.17.0.2
@@ -145,13 +145,41 @@ $ ssh gamut@172.17.0.3
 Add below line under "# Authentication:" in "/etc/ssh/sshd_config"
 	PermitRootLogin yes
 
+# 
+Manage/Run Docker as a non-root user
+------OR------
+Run docker command without sudo
+==========================
+	1. Create the "docker" group
+		$ sudo groupadd docker
+
+	2. Add user to the group
+		$ sudo gpasswd -a gamut docker	(add)
+
+	3. Logout and Login back so that your group membership
+	   is re-evaluated.
+
+-- verification and cleanup
+
+	4. Check group existance:
+		$ grep docker /etc/group
+
+	5. Delete the group
+		$ sudo groupdel docker
+
+	6. Remove user from the group
+		$ sudo gpasswd -d gamut docker	(remove)
 #
 Shotdown a container
 "exit" to stop the container
 
+#
+Login to a stopped container
+	$ docker start
+	$ docker attach
 
 # List all containers(stopped and running)
-$ sudo docker cotainer ls -a
+$ docker cotainer ls -a
 $ docker ps -a
 
 # List running containers only
@@ -194,6 +222,7 @@ $ docker rm -f $(docker ps -q)
 # list stopped containers only
 $ docker container ls -f status=exited
 
+
 # Starting a stopped container
 	sudo docker start gamut
 	sudo docker stop aa3f365f0fdocker4e
@@ -204,18 +233,19 @@ $ docker container ls -f status=exited
 	docker attach b1b1c8dc1939
 
 # Stoping a container from 'host machine'
-	- docker stop dgamut (Gracefully stop the cntainer with SIGTERM)
-	- docker kill dgamut (Forcibly stop the container with SIGKILL)
+		- docker stop dgamut (Gracefully stop the container)
+		- docker kill dgamut (Forcibly stop the container)
 
 # Shortcut Keys
 	Ctrl + p + q - push a running container in background mode.
-	Ctrl + d -  short cut to 'exit' from the container.
+	Ctrl + d -  short cut to 'stop' a container.
 
 # Inspecting the container's processes from host machine
 	$ docker top <container-name>
 
 # Show last 4 containers (stopped/running)
-	$ docker ps -n4
+	$ docker ps -n2
+
 
 # Find More About The Container
 - 'docker inspect' comamnd interrogates the container and returns complete 
@@ -225,18 +255,21 @@ $ docker container ls -f status=exited
 	 
 	 Examples:
 	$ docker inspect <container-name>
-
 	$ docker inspect -f '{{.Config.Hostname}}' tomcat-server1
-
 	$ docker inspect -f '{{.NetworkSettings.Networks.bridge.IPAddress}}' tomcatserver1
 	
- Note: use --format (OR) -f  
+ Note: use --format (OR) -f
+
+# Run a linux command remotely in a container
+$ docker exec -it tomcat-server /bin/bash  
+
 
 STATS:
 ==========
-# Display Live 	 usage statistics of a container
+# Display usage statistics of a container
 	$ docker stats --no-stream <container-name>
 	$ docker stats --no-stream --all
+
 	$ docker stats --no-stream --format {{.MemUsage}} sleepy_shannon
 	$ docker stats --no-stream --format {{.CPUPerc}} sleepy_shannon
 
@@ -246,12 +279,8 @@ Allocating memory for a container (below command allocates 1 GB RAM)
 	$ docker run -it --name tomcat-server -m 1024m ubuntu /bin/bash 
 
 #
-Updating memory of a container (which is exist already) 
+Updating memory of an existing container 
 	$ docker update -m 2024m tomcat-server	
-
-
-# Remove all running containers
-$ docker rm -f $(docker ps -q)
 
 # Push a container in sleep mode
 $ docker pause db-server1
@@ -269,7 +298,6 @@ Agenda:
 	- Examine Docker repositories that hold images
 
 - Docker images are the building blocks for creating container
-
 - From images, we launch containers.
 
 # Advantages of Images in Build and Deployments OR DevOps world!
@@ -289,47 +317,25 @@ g. You can create new environments within few minutes (ex: create new performanc
 - Containers live in '/var/lib/docker/containers'
 
 
-DAY-5:
-PROJECT-1:
-============
-#
-SETTING-UP NGINX SERVER ON UBUNTU MANUALLY:
---------------------------------------------
- sudo apt-get update
- sudo apt-get install -y nginx
-
- start/stop/restart nginx server:
-=========== 			
- sudo service nginx start
- 			  nginx stop 
-			  nginx restart
-			  nginx status
-
-Web content/Deployment path: /var/www/html
-
-Uninstall nginx:
-sudo apt-get purge nginx nginx-common
-
-
 # Building our own Image
 	We have 2 Ways to create docker image:
 		1. docker "commit"
 		2. docker "build" cmd & Dockerfile
 
 # Creating docker image using "docker commit" command
-=============================
-PROJECT-1:
-	Create an image which will ship your application code along with nginx configuration.
+===========================================================
+	PROJECT-1:
+Goal: Create the docker image to ship the application code along with nginx configurations to the customer.
 
--create container
-	$ docker run -it --name school-app-base-cont ubuntu /bin/bash
+- Create container
+	$ docker run -it --name nginx-container ubuntu /bin/bash
 	
 - Install nginx manually
 	$ apt-get update
 	$ apt-get install -y nginx
 
-- Deploy some application code into /var/www/html
-	sample index.html:
+- Deploy some application code into '/var/www/html' (this is deployment path for nginx)
+	ex: deploy below index.html as a code
 =======
 <html>
     <body>
@@ -338,9 +344,10 @@ PROJECT-1:
 </html>
 =======
 
-- Create a docker image from the container (OR) Convert docker container as docker image
-	$ docker commit school-app-base-cont nageshvkn/nginx-img
-	$ docker commit <container-name> <image-name>
+- Create docker image from the container (OR)
+- Convert docker container as docker image..
+	$ docker commit nginx-container nageshvkn/nginx-img
+Syntax: $ docker commit <container-name> <image-name>
 	
 - Check if image has been created
 	$ docker image ls
@@ -349,16 +356,25 @@ PROJECT-1:
 	$ docker login
 	$ docker push nageshvkn/nginx-img
 
-Note: Now you have succussfully containerized your application and published the iamge to DockerHub
+Note: Now you have succussfully containerized your application and published the iamge to DockerHub. Customers can spin millions of new containers using the above docker image.
 
-Note: To verify your image, create a container as your customer
-
-- Customers can spin millions of new containers using below command and all get application with nginx out-of-box.
+Note: To verify your image as an user, create a container as shown below. Remove existing image that you have created so that you can abserve image download from Docker hub clearly. (to remove the image.. $ docker rmi nageshvkn/nginx-img)
 	$ docker run -it nageshvkn/nginx-img /bin/bash
 
 - Launch the application to test if application is configured along with dependencies.
 	http://172.17.0.2:80
 
+Note:
+start/stop/restart nginx server:
+===========\===========\===========		
+$ sudo service nginx start
+$ sudo service nginx stop
+$ sudo service nginx restart
+$ sudo service nginx status
+
+Note:
+uninstall nginx using below comamnd
+$ sudo apt-get purge nginx nginx-common
 
 PROJECT-2:
 =============
@@ -392,8 +408,10 @@ index.html:
 # Building docker image:
 	$ cd gamutgurus
 	$ docker build -t="nageshvkn/nginx-img" .
-	$ docker build -f MyDockerfile -t="nageshvkn/nginx-img" . [If Dockerfile name
-																	is different]
+
+Note: Building the image if 'Dockerfile' has different name.
+	  Use "-f <YourDockerfileName>" option.
+	  Example: $ docker build -f MyDockerfile -t="nageshvkn/nginx-img"
 
 # Listing docker image
 	$ docker image ls
@@ -408,7 +426,7 @@ index.html:
 Testing Image
 
 # Remove the local image so that it will be downloaded from Docker Hub.
-	$ docker rmi nageshvkn/nginx-image
+	$ docker rmi nageshvkn/nginx-image (OR)
 	$ docker image rm nageshvkn/nginx-image
  
 # Creating a new container from our image
@@ -420,7 +438,7 @@ Testing Image
 	
 #
 User Images Syntax:
-	nageshvkn/nginx (username/imagename)
+	nageshvkn/nginx-img (username/imagename)
 
 Official Images Syntax:
 	ubuntu
@@ -495,30 +513,6 @@ Docker Benefits:
 4. Managing infrastructure-like code:
 When it comes to upgrades, you can simply update your Dockerfile, and then tear down the old one. This helps not only with updates, but it can also help with rollbacks as well.
 
-
-# 
-Manage/Run Docker as a non-root user
-==========================
-Run docker command without sudo.	
-------
-	1. Create the "docker" group
-		$ sudo groupadd docker
-
-	2. Add/Remove user to/from the group
-		$ sudo gpasswd -a gamut docker	(add)
-		$ sudo gpasswd -d gamut docker	(remove)
-
-	3. Logout and Login back so that your group membership
-	   is re-evaluated.
-
--- verification and cleanup
-
-	4. Check group existance:
-		$ sudo grep docker /etc/group
-
-	5. Delete the group
-		$ sudo groupdel docker
-
 Volumes:
 ===============
 # List all volumes available in host machine
@@ -543,8 +537,12 @@ Volumes:
 	$ docker volume prune
 
 # Note:
-Creating Volume with your own directory in host machine
+Creating Volume with your own directory in host machine (OR)
+Crreating Volume with existing directory in the host machine
 	$ docker run -it -v /home/gamut/Distros:/Distros ubuntu /bin/bash
+
+# List down all containers using a particular volume
+	$ docker ps -a --filter volume=deployment_code
 
 #
 Docker Registry
@@ -555,10 +553,8 @@ DAY-8:
 Gamutkart Real application
 ============================
 Agenda:
-- Build and deployments with Docker containers.
-- Real Containerization with Docker.
-- Creating dockerized environments.
-- Dockerizing your application.
+How do you containerize or dockerize your application?
+Can you explain how you have implememnted Docker for your application?
 
 
 1. Clone the source code from Git or any other V.C.S
@@ -593,13 +589,6 @@ Agenda:
 
 #
 	Docker and Jenkins Integration
-
-
-
-Qns:
---mrng-9AM-daily--
---> Volumes
---> Docker compose
 
 
 

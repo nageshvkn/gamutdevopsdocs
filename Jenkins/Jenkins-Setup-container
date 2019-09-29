@@ -56,6 +56,8 @@ source ~/.bashrc
 Launch jenkins using below URL
 http://172.17.0.2:8080/jenkins
 
+Notes:
+=========
 #
 - When jenkins prompts for password, provide it and click on 'continue'
 	ex: cat /root/.jenkins/secrets/initialAdminPassword
