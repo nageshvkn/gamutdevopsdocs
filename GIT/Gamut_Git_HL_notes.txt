@@ -1,5 +1,4 @@
-Day-1
-======
+
 # What is VCS. Why we need VCS.
 	VCS features.
 
@@ -17,21 +16,22 @@ GIT Uninstallation:
 $ sudo apt-get remove git
 
 #
-Git Architecture Diagram
-	- Centralized VCS -  Ex: CVS/SVN/Clearcase/Perforce
-	- Distributed VCS -  Ex: GIT/Bitkeeper
+Git Architecture
+- end-to-end git work-flow
 
 #
-Staging Index / Stage
+Staging Index/Stage
 
 - Skip staging
 	$ git commit -am "submit all pending changes"
 
 Note: If you want to skip the staging, you need to commit all pending changes.
 
+# Show all the files that are modified as part of a commit (with content)
+git show <SHA>
+git show b85a6e123
 
-Day-2
-======
+
 Creating remote repository in github
 ===============
 1. create an account in github.com
@@ -58,11 +58,12 @@ Creating remote repository in github
 
 #
 - Git Commit structure
-	User/Email
-	Timestamp
+	SHA id
+	User & email
+	Date & time stamp
 	Commit message
-	
-#
+	 
+# How SHA is generated?
 SHA / Version / Revison
 
 
@@ -79,11 +80,9 @@ Git stores all configurations in below file
 "$USER_HOME/.gitconfig"
 
 Save Git user's password
-$ git config --global credential.helper cache
+$ git config --global credential.helper store
 
 
-Day-3
-======
 # Understand Git Jargon.
 	- Remote Repository
 	- Working Directory
@@ -91,53 +90,16 @@ Day-3
 	- Stage/"Staging Index"
 
 
-# Creating up Local repository
-1. create/initialize a local repository with 'git init' command
-$ git init gamutkart
-
-
-2. Observe the local repository
-ls -a (you can see the .git folder. this is called the "local repository")
-
-3.
-create some source code.. ex: vim Login.java
-
-4.
-Adding the file to STAGE.
-$ git add Login.java
-
-5.
-Commiting the file to local repository
-$ git commit Login.java -m "lgoin module code"
-
-6.
-Check the log of Login.java using log command.
-$ git log Login.java
-
-
-Day-4
-======
 # History
 	$ git log Login.java
 	$ git log
 
-Git log Options:
--------------------
-git log -n3
-git log --author="Ram"
-git log --grep="math function"
-git log --since="2019/03/05"
-git log --until="2019/03/10"
-
-
 #Qn.
-Show me all logs committed by user "Ram" AND has a commit message "math function" in it.
+Show me all commits made by user "Ram" AND has a commit message "math function" in it.
 
 $ git log --author="Ram" --grep="math function"
 
 
-Day-5
-=====
 # GIT Commands
 
 1.  
@@ -145,14 +107,11 @@ git diff Login.java
 
 git diff --staged Login.java
 
-git diff  089871935..fc894a6bf6d2e
-
-
 2. Deleting a file
 
 	A.) git rm OMS.java
 	    git commit OMS.java -m "comment"
-
+		git push
 
 4. Renaming a file/folder
 	A.) git mv Login.java Login1.java
@@ -162,13 +121,18 @@ Git will carry the history of old file to new file. To check complete history..
 	$ git log --follow Login1.java
 
 
-Day-6
-=======
+# Undoing the changes:
+undo/revert local changes from source area
+	$ git checkout -- LoginWeb.java
+
+Unstage the changes from STAGE area
+	$ git reset HEAD LoginWeb.java
+
+
 # BRANCHING
 	A. What is a branch?
 	B. Why and When we create a branch?
 	C. Branching Stratogy overview
-
 
 # List all the branches
 	$ git branch
@@ -192,36 +156,6 @@ Day-6
 # List all remote branches
 	$ git branch -r
 
-#
-HEAD
-
-HEAD is a pointer in git which
-	- Always points to the latest commit in the repository
-	- Always points to tip of the current reposiotory
-	- Always points to parent of the next commit
-
-
-Day-7
-======
-
-# Undoing the changes:
-undo/revert local changes from source area
-	$ git checkout -- LoginWeb.java
-
-Unstage the changes from STAGE area
-	$ git reset HEAD LoginWeb.java
-
-
-# Show all the files with content difference that are modified as part of a commit
-git show <SHA>
-git show b85a6e123
-
-# List only files that are committed as part of a revision.
-	$ git diff-tree --no-commit-id --name-only -r 41a7c2a456a
-
-
-Day-8
-======
 Merging:
 =========
 # FAST-FORWARD MERGE
@@ -333,12 +267,13 @@ If two users modify the same file in source and target branches and if the same 
   based on the discussion with developers
 - git add
 - git commit (after compilation and some basic sanity testing)
-- git push
+- git push 
 
 #	
 git remote
 	PULL
-	FETCH	
+	FETCH
+
 	PUSH
 	CLONE
 
@@ -346,6 +281,10 @@ git remote
 NOTES:
 SVN & Git differences:
 ==========================
+- Centralized VCS -  Ex: CVS/SVN/Clearcase/Perforce
+- Distributed VCS -  Ex: GIT/Bitkeeper
+
+
 1.
 SVN is a centralised version control system. In svn, when a user checkout’s the repository, he will get only the source code. Repository is not distributed to the user. In SVN multiple users connect to a single/centralized server. If that server goes down, no user will be able to work.
 
@@ -366,11 +305,13 @@ Git seems to be good with merging.
 5.
 Git stores each change as SHA values but SVN uses simple numbers as revisions.
 
-wk-end-10:30 batch:
 
-Qn: forking
-Qn: stash
-Qn: rebase
+Qns:
+wk-end-mrng
+1. How do you clone a specific folder from repo.
+2. How do you permanently remove a commit from git repo
+2. How do you creat local repo and make it remote?
+
 
 
 

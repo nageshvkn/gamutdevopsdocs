@@ -5,7 +5,7 @@ open a file with vim editor
 vim -O file1 file2
 	ctrl+ww --> switch between windows
  	:qa     --> quiet all windows
-	:wqa	--> save and quiet all windows
+	:wqa	--> save andrunning quiet all windows
 
 
 i - insert to start edit

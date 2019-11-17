@@ -17,7 +17,7 @@ What is Maven? Why we need a build tool?
 Installation
 	- Download JDK 1.8 and extract it to your favourite location.
 	- Download lastest Maven and extract it to your favourite location.
-	- Setup 'JAVA_HOME' Environment variable for Maven to locate JDK.
+	- Setup 'JAVA_HOME' Envi:qronment variable for Maven to locate JDK.
 	- Setup 'M2_HOME' for PATH variable
 	- Setup 'PATH' to run jdk and maven commands from any directory in the system.
 		1. JAVA_HOME
@@ -107,10 +107,9 @@ $ mvn install - command executes below "build life cycle phases" automatically.
 
 	- initialize
 		prepares project with initial pre-
-		requisites ex: creating necessary directory structure.
+		requisites ex: creating necessary directory structure (target directory)
 	- validate
 		validate project's folder structure	
-
 	- compile
 		compiles "main" java code.
 	- test-compile
@@ -122,6 +121,7 @@ $ mvn install - command executes below "build life cycle phases" automatically.
 	- install
 		copy built artifacts i.e jar/war file into local repository $USER_HOME/.m2
 		folder.
+
 
 #
 Verify Built artifacts:
@@ -161,7 +161,7 @@ Understanding pom.xml file structure
 
 DAY-4:
 #11:	
-Maven Automatic Dependency resolution feature
+Maven has "Automatic Dependency resolution" feature
 	
 	- Direct dependency
 	- Transitive dependency
@@ -210,6 +210,7 @@ Create web application project structure using below command (This variable we u
 	$ mvn archetype:generate -DartifactId=flipkart -DgroupId=com.flipkart -
 	  Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-
 	  archetype-webapp
+
 #
 Build the application using below Maven command
 $ cd flipkart

@@ -1,0 +1,33 @@
+Creating Basic Project in Jenkins:
+========================================
+
+- Launch Jenkins
+
+- Click on 'New Item' --> Give a Project name (gamutkart) --> Select 'Freestyle project' --> OK -->
+
+- Description - (Provide some description for your job)
+
+- Make sure All build tools are installed in your Jenkins server before you create the project. Jenkins invokes GIT, Maven commands from the local installation.
+
+- Configure Maven installation path in Jenkins.
+  Go to 'manage Jenkins' --> 'Global tool configuration' --> Maven --> Add Maven --> give 'Name' as 'ex: maven3.5' --> De-select 'Install automatically' --> Provide Maven installation path in Jenkins server.
+
+
+- Go to 'Source Code Management' to configure GIT URL.
+  Select Git --> Provide GIT URL as (https://github.com/nageshvkn/gamutkart2.git)
+
+- Go to Build section to configure Maven build commands
+  Click on Add build step dropdown and select 'Invoke top-level maven targets'
+  Provide maven command which builds the application (ex: install)
+
+- Build the project:
+  Click on gamutkart project --> click on 'Build Now'
+
+- Observer source code cloned directory i.e workspace
+  Click on build number --> 'Console Output' --> Observer cloned directory in (Building in workspace ...........)
+
+
+
+
+
+

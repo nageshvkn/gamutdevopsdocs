@@ -1,0 +1,46 @@
+Day-1
+======
+1. What is C.I/C.D
+
+2. Jenkins Installation
+
+2. Jenkins job creation
+
+3. Build tools Installation
+
+Day-2
+======
+3. Manage Jenkins
+
+Day-3
+======
+Manage Nodes
+
+Day-4
+======
+Manage Plugins
+
+Day-5
+======
+Parameterized Builds
+
+Day-6
+======
+Build Pipeline
+
+Day-7
+======
+Job Configuration All steps
+
+
+PLUGINS
+=============
+Build pipeline plugin
+Shelve project plugin
+Confighistory plugin
+Junit
+Test Results Analyzer 
+Thin backup plugin
+
+
+
