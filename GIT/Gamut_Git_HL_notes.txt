@@ -1,4 +1,7 @@
-
+                                        GIT
+                                     =================
+                                     
+                                     
 # What is VCS. Why we need VCS.
 	VCS features.
 
@@ -10,7 +13,6 @@ $ sudo apt-get install git
 Verify Installation:
 	which git
 	git --version
-
 
 GIT Uninstallation:
 $ sudo apt-get remove git
@@ -26,6 +28,7 @@ Staging Index/Stage
 	$ git commit -am "submit all pending changes"
 
 Note: If you want to skip the staging, you need to commit all pending changes.
+
 
 # Show all the files that are modified as part of a commit (with content)
 git show <SHA>
@@ -58,7 +61,7 @@ Creating remote repository in github
 
 #
 - Git Commit structure
-	SHA id
+	SHA value / commit ID
 	User & email
 	Date & time stamp
 	Commit message
@@ -111,7 +114,7 @@ git diff --staged Login.java
 
 	A.) git rm OMS.java
 	    git commit OMS.java -m "comment"
-		git push
+	        git push
 
 4. Renaming a file/folder
 	A.) git mv Login.java Login1.java
@@ -132,7 +135,7 @@ Unstage the changes from STAGE area
 # BRANCHING
 	A. What is a branch?
 	B. Why and When we create a branch?
-	C. Branching Stratogy overview
+	C. Branching Stratogies
 
 # List all the branches
 	$ git branch
@@ -146,7 +149,10 @@ Unstage the changes from STAGE area
 		
 # Switching from one branch to another
 	$ git checkout dev_1.2.3
-		
+
+#
+HEAD
+
 # Creating and switching to a newly created branch
 	$ git checkout -b dev_1.2.4
 
@@ -162,20 +168,21 @@ Merging:
 
 BEFORE MERGE:
 -------------
-			master
-			 |
-----C1--C2---C3
-			 |
-			 ----------C4----C5  
-								dev_1.2.3
+	       master
+	       |
+----C1--C2---C3|
+               |
+		----------C4----C5 
+		                | 
+		                dev_1.2.3
 		
 AFTER MERGE:
 -------------
- 			     			master
-			     			  |
+ 			      master
+			      |
 ----C1----C2---C3------C4----C5
-		             		  |
-			     			dev_1.2.3
+		              |
+			      dev_1.2.3
 
 
 Excercise:
@@ -266,14 +273,13 @@ If two users modify the same file in source and target branches and if the same 
 - Open the conflict file--> remove conflict markers--> select the right content 
   based on the discussion with developers
 - git add
-- git commit (after compilation and some basic sanity testing)
+- git commit (after compilation and some z sanity testing)
 - git push 
 
 #	
 git remote
 	PULL
 	FETCH
-
 	PUSH
 	CLONE
 
@@ -307,11 +313,8 @@ Git stores each change as SHA values but SVN uses simple numbers as revisions.
 
 
 Qns:
-wk-end-mrng
-1. How do you clone a specific folder from repo.
-2. How do you permanently remove a commit from git repo
-2. How do you creat local repo and make it remote?
-
-
+--> how do you list fetched files only.??
+--> Tagging in Git
+--> Is there a command to make a branch as default in remote repo?
 
 

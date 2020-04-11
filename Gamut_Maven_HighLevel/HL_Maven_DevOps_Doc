@@ -1,6 +1,5 @@
-					MAVEN				
-
-DAY-1:			============
+			MAVEN				
+DAY-1:		    ============
 #1
 	Java Build and Deployment End-To-End Workflow.
 
@@ -62,16 +61,16 @@ Project creation:
 java projects which are created by maven, ideally follows below project folder structure.
 	
 		flipkart
-			|
-			src		pom.xml
-			|
-	main--------- test
-	|				|
-   java		       java
-	|				|
-  (group.Id)	  (group.Id)
-	|				|
-App.java		AppTest.java
+		   |
+		  src		pom.xml
+		   |
+           main--------- test
+	     | 		|
+           java		java
+	    |		 |
+       (group.Id    (group.Id)
+	  |		|
+      App.java	   AppTest.java
 
 flipkart - is called "Project name" / "ArtifactID"
 src 	 - Source folder which contains the 
@@ -173,7 +172,7 @@ Maven way of dependency addition, detection from different repositories.
 #12
 Maven repositories
 	- Central
-	- Private ( Nexus/atifactrory tools)
+	- Private ( Nexus/atifactrory tools )
 	- Local (.m2)
 
 #13
@@ -183,8 +182,9 @@ Maven repositories
 #14
 "mvn clean" 
 
+
 # Skip test cases
-$ mvn install -DskipTest (skip running test cases)
+$ mvn install -DskipTest (skip test cases execution)
 $ mvn install -Dmaven.test.skip=true (skips compilation and test case execution)
 
 #18
@@ -204,18 +204,19 @@ Goal:
 
 Steps:
 ------
-
-Create web application project structure using below command (This variable we use for web application project creation: -DarchetypeArtifactId=maven-archetype-webapp)
-----------------------
-	$ mvn archetype:generate -DartifactId=flipkart -DgroupId=com.flipkart -
-	  Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-
-	  archetype-webapp
+# Install git
+	$ sudo apt-get update
+	$ sudo apt-get install git
+	$ git --version --> verify git installation.
 
 #
-Build the application using below Maven command
-$ cd flipkart
-$ mvn install
+Clone the code from Git
+	$ git clone https://github.com/nageshvkn/iflipkart.git
 
+#
+Building the project using Maven. Use below command.
+	$ mvn install
+	
 #
 Check final artifact i.e flipkart.war file in target directory
 $ ls target 
@@ -290,7 +291,6 @@ We can check this file and if there are any errors/exceptions, we provide this i
 Note: If you want to change the port number, Go to below file and change the port number where you see something like this. ( port="8080" protocol="HTTP/1.1")
 	$ vim $TOMCAT_HOME/conf/server.xml
 
-
 #
 Interview Notes:
 
@@ -310,6 +310,4 @@ Explain Maven Life cycle phases:
 		package		 - creates jar/war file
 		install		 - copies jar/war file into local repository i.e ~$USER_HOME/.m2
 
-
- 
 

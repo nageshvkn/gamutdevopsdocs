@@ -44,8 +44,6 @@ Requirements Check:
 	$ uname -a
 	$ uname -r
 
-NOTE: Kernel can also be upgraded.
-
 - Check OS name:
 	$ lsb_release -a / -cs
 	$ cat /etc/os-release	
@@ -98,7 +96,7 @@ $ sudo docker run -it ubuntu /bin/bash
 -it : provides interactive shell
 	
 ubuntu : Is an image and also called as "stock image" or "base image".
-			  This image will be downloaded from Docker hub when we run 'docker run' 
+	This image will be downloaded from Docker hub when we run 'docker run' 
 			  command first time.	
 /bin/bash: shell program that will be installed in the terminal.
 
@@ -148,8 +146,8 @@ Add below line under "# Authentication:" in "/etc/ssh/sshd_config"
 # 
 Manage/Run Docker as a non-root user
 ------OR------
-Run docker command without sudo
-==========================
+Run docker command without 'sudo'
+====================================
 	1. Create the "docker" group
 		$ sudo groupadd docker
 
@@ -233,8 +231,8 @@ $ docker container ls -f status=exited
 	docker attach b1b1c8dc1939
 
 # Stoping a container from 'host machine'
-		- docker stop dgamut (Gracefully stop the container)
-		- docker kill dgamut (Forcibly stop the container)
+        - docker stop dgamut (Gracefully stop the container)
+	- docker kill dgamut (Forcibly stop the container)
 
 # Shortcut Keys
 	Ctrl + p + q - push a running container in background mode.
@@ -246,6 +244,8 @@ $ docker container ls -f status=exited
 # Show last 4 containers (stopped/running)
 	$ docker ps -n2
 
+# Create a container in a background mode ( without termial access ) 
+$ docker run -it -d ubuntu /bin/bash
 
 # Find More About The Container
 - 'docker inspect' comamnd interrogates the container and returns complete 
@@ -259,6 +259,9 @@ $ docker container ls -f status=exited
 	$ docker inspect -f '{{.NetworkSettings.Networks.bridge.IPAddress}}' tomcatserver1
 	
  Note: use --format (OR) -f
+
+# List all container names
+$ docker inspect --format "{{.Name}}" $(docker ps -a -q) | tr -d '/'
 
 # Run a linux command remotely in a container
 $ docker exec -it tomcat-server /bin/bash  
@@ -291,7 +294,7 @@ DAY-4:
 # Docker Images
 =================
 Agenda:
-	- Understand docker Images
+	- Understand docker Images and application
 	- Advantages of Docker Images
 	- Create docker Image for your application
 	- Share/publish your Image
@@ -324,7 +327,7 @@ g. You can create new environments within few minutes (ex: create new performanc
 
 # Creating docker image using "docker commit" command
 ===========================================================
-	PROJECT-1:
+PROJECT-1:
 Goal: Create the docker image to ship the application code along with nginx configurations to the customer.
 
 - Create container
@@ -411,7 +414,7 @@ index.html:
 
 Note: Building the image if 'Dockerfile' has different name.
 	  Use "-f <YourDockerfileName>" option.
-	  Example: $ docker build -f MyDockerfile -t="nageshvkn/nginx-img"
+	  Example: $ docker build -f MyDockerfile -t="nageshvkn/nginx-img" .
 
 # Listing docker image
 	$ docker image ls
@@ -424,6 +427,7 @@ Note: Building the image if 'Dockerfile' has different name.
 
 #
 Testing Image
+
 
 # Remove the local image so that it will be downloaded from Docker Hub.
 	$ docker rmi nageshvkn/nginx-image (OR)
@@ -578,6 +582,9 @@ Can you explain how you have implememnted Docker for your application?
 
 4. Build the Image using below command
 	$ docker build -t "nageshvkn/gamutkart-img" .
+	
+4A. Push the image to docker hub.
+        $ docker push nageshvkn/gamutkart-img
 
 5. Run below shell script to create an environment with give no. containers
 	$ ./create-env.sh 10
@@ -589,7 +596,11 @@ Can you explain how you have implememnted Docker for your application?
 
 #
 	Docker and Jenkins Integration
-
+	
+Qns:
+------
+Difference between CMD, RUN, ENTRYPOINT
+- How to log into the container with an user by default.
 
 
 
