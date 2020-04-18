@@ -8,7 +8,7 @@ Diff between..
 - Virtual machine
 - Docker container
 
-VM, Docker, usage in DevOps.
+VM, Docker, usazge in DevOps.
 
 #
 what is docker? why docker?
@@ -69,7 +69,6 @@ Installation Steps:
 # Install Latest version of Docker
 	$ sudo apt-get install docker-ce
 
-
 #
 Installation Check
 sudo docker --version
@@ -129,7 +128,7 @@ $ apt-get update
 $ apt-get install openssh-server
 
 - Start the server
-$ service ssh start (status/stop)
+$ service ssh start (status/stop/restart)
 
 
 - Create an user and set up password
@@ -175,6 +174,7 @@ Shotdown a container
 Login to a stopped container
 	$ docker start
 	$ docker attach
+        $ docker start -ai mystifying_tu
 
 # List all containers(stopped and running)
 $ docker cotainer ls -a
@@ -263,9 +263,10 @@ $ docker run -it -d ubuntu /bin/bash
 # List all container names
 $ docker inspect --format "{{.Name}}" $(docker ps -a -q) | tr -d '/'
 
-# Run a linux command remotely in a container
+# Run a linux command remotely in a container Or Get an independent terminal from a container remotely
 $ docker exec -it tomcat-server /bin/bash  
 
+<11:30AM-Wk>
 
 STATS:
 ==========
@@ -545,7 +546,7 @@ Creating Volume with your own directory in host machine (OR)
 Crreating Volume with existing directory in the host machine
 	$ docker run -it -v /home/gamut/Distros:/Distros ubuntu /bin/bash
 
-# List down all containers using a particular volume
+# List down all containers which are using a particular volume
 	$ docker ps -a --filter volume=deployment_code
 
 #
@@ -601,6 +602,5 @@ Qns:
 ------
 Difference between CMD, RUN, ENTRYPOINT
 - How to log into the container with an user by default.
-
-
+- Networking concepts
 
