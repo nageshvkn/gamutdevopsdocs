@@ -156,7 +156,7 @@ pod.yaml - Manifest file description:
 	- Pods are currently in v1 API group
 
 --> .kind:
-	- Tells us kind of object being deployed. In this case we are creating POD object.
+	- Tells us the kind of object being deployed. In this case we are creating POD object.
 	- It tells control plane what type of object is being defined.
 
 --> .metadata:
@@ -195,6 +195,7 @@ $ kubectl describe pod nginx-pod
 
 - Launch nginx server application running in the Pod from Controle-plane node
 $ curl http://10.44.0.1:80
+$ curl http://POD-IP:Server-Port
 
 - You can also loing into the Pod container to get more information.
 $ kubectl exec -it nginx-pod -- /bin/bash
@@ -262,19 +263,19 @@ vim deploy-nginx.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: nginx-deploy
+    name: flipkart-prod-deploy
     labels:
-      app: nginx-app
+      app: flipkart-prod
 spec:
-  replicas: 8
+  replicas: 6
   selector:
     matchLabels:
-      app: nginx-app
+      app: flipkart-pod-template
   template:
     metadata:
-      name: nginx-pod
+      name: flipkart-pod
       labels:
-        app: nginx-app
+        app: flipkart-pod-template
     spec:
       containers:
         - name: nginx-container
@@ -296,6 +297,17 @@ $ kubectl exec -it nginx-deploy-5f654bcccd-27xtg /bin/bash
 $ curl http://10.44.0.1:80
 $ curl http://pod_ip:80
 
+# Testing Self-healing capability
+----------------------
+If you delete some Pods, Kubernetes can automatically re-create the same for us to make sure given no. of Pods are always running.
+
+- Delete the Pods
+$ kubectl delete pods POD_NAME1 POD_NAME1
+
+- Check if the Pods are re-craeted
+	$ kubects get pods
+
+
 Creating service to expose the application to outside world and setting up load balancer
 ===============================================
 $ vim service-nginx.yml
@@ -303,12 +315,12 @@ $ vim service-nginx.yml
 apiVersion: v1
 kind: Service
 metadata:
-    name: my-services
+    name: flipkart-service
     labels: 
-      app: nginx-app
+      app: flipkart-pod-service
 spec:
   selector:
-    app: nginx-app
+    app: flipkart-pod-template
   type: NodePort
   ports:
   - nodePort: 31000
@@ -324,11 +336,7 @@ Go to VPC Network --> Firewal rules --> select on one existing rule --> edit -->
 
 # Access the application from browser using worker-node port
 http://34.93.139.52:31000/
-http://NodeIP:Node-port/
-
-Note:
-Nginx deployment path
-$ cd /usr/share/nginx/html
+http://WorkerNodeIP:Node-port/
 
 
 Project-3 [GamutKart]
@@ -401,174 +409,5 @@ $ kubectl get nodes -o wide
 
 Qns:
 ====
-Error loggin. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						Ceating Worker Nodes
-						==========================
-# Install Virtual box in your Linux VM running on your windows(This should be created with VMWare Player)
-Note: you can't create VMs inside another VMs using Virtualbox. So Install VMWare Player in your windows and Install Virtualbox to create worker nodes.
-
-https://computingforgeeks.com/install-virtualbox-6-0-on-ubuntu-18-04-debian-9-ubuntu-16-04/
-
-# Install Vagrant
-$ vagrant_2.2.5_x86_64.deb
-
-# Set up Vagrant Workspace
-$ mkdir vagrant_kubernetes
-$ cd vagrant_kubernetes
-$ vagrant init ubuntu/xenial64
-$ vagrant up
-
-# Login to the Worker node to join it to the cluster
-kubeadm join 192.168.254.129:6443 --token lc1x37.v1dt857dfny4pszd \
-    --discovery-token-ca-cert-hash sha256:c4b751ebfefc8ea842f654daab07504ad033873eee87d137c1eb95720c2db8de
-    
-Note: It will throw the error as kubeadm is not install in this Node.
-
-
-Worker Node Setup & Joining to the cluster:
-==============================================
-# Install kubeadm
-https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-
-# Install container runtime
-    https://docs.docker.com/install/linux/docker-ce/ubuntu/
-
-# To bootstrap a Kubernetes worker node and join it to the cluster run below command.
-Note: bootstrap: It automatically installs kubectl and kubelet.
-
-kubeadm join 192.168.254.129:6443 --token lc1x37.v1dt857dfny4pszd \
-    --discovery-token-ca-cert-hash sha256:c4b751ebfefc8ea842f654daab07504ad033873eee87d137c1eb95720c2db8de
-
-# Verify node Join (Run below in Control-plane node)
-kubectl get nodes
-
-					Creating PODs
-			       =================
-- Use the following kubectl command to POST the manifest to the API server and deploy a Pod from 
-  it.
-$ kubectl apply -f pod.yml
-
-- Check if pod is created
-$ kubectl get pods
-$ kubectl get pods --watch
-
-- Inspecting running Pods
-$ kubectl describe pods hello-pod
-
-- Deleting a pod
-kubectl delete pods <pod>
-
-- Deleting a pod forcibly
-kubectl delete pods <pod> --grace-period=0 --force
-
-
-Misc topic:
-				Removing the node from the cluster:
-			=========================================
-kubectl drain <node name> --delete-local-data --force --ignore-daemonsets
-kubectl delete node <node name>
-
-#
-Then, on the node being removed, reset all kubeadm installed state:
-kubeadm reset
-
-- Verify:
-kubectl get nodes
-
-TODO:
-https://kubernetdes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
-
-
-Vagrant Useful Commands:
-================================
-# Initiating Vagrantfile
-$ vagrant init ubuntu/xenial64
-
-list:
-$ vagrant box list
-$ vagrant box remove bento/ubuntu-16.04
-
-check status: running or not
-$ vagrant status
-
-shutdown:
-$ vagrant halt
-
-suspend:
-$ vagrant suspend
-
-restart:
-vagrant up
-
-Reading - Additional Official Meterial
-=============================
-https://kubernetes.io/docs/concepts/
-
+Error loggin
 
