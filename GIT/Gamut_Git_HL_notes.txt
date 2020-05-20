@@ -1,9 +1,10 @@
                                         GIT
-                                     =================
-                                     
-                                     
+                                  =================
+                                                                          
 # What is VCS. Why we need VCS.
 	VCS features.
+	
+--> Refer 'ProGit' for official documentation.
 
 #
 GIT Installation (Ubuntu):
@@ -69,7 +70,6 @@ Creating remote repository in github
 # How SHA is generated?
 SHA / Version / Revison
 
-
 #
 Setting up mandatory configurations:
 =============================================
@@ -85,6 +85,7 @@ Git stores all configurations in below file
 Save Git user's password
 $ git config --global credential.helper store
 
+--4:30 IST--
 
 # Understand Git Jargon.
 	- Remote Repository
@@ -274,7 +275,7 @@ If two users modify the same file in source and target branches and if the same 
   based on the discussion with developers
 - git add
 - git commit (after compilation and some z sanity testing)
-- git push 
+- git push
 
 #	
 git remote
@@ -282,7 +283,8 @@ git remote
 	FETCH
 	PUSH
 	CLONE
-
+#
+Tag
 
 NOTES:
 SVN & Git differences:
@@ -313,8 +315,9 @@ Git stores each change as SHA values but SVN uses simple numbers as revisions.
 
 
 Qns:
---> how do you list fetched files only.??
---> Tagging in Git
---> Is there a command to make a branch as default in remote repo?
+--> How do you push a specific to remote?
+--> amend (Will it change the commit ID..Inspect this)
+
+
 
 

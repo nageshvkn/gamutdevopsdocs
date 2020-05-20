@@ -266,7 +266,6 @@ $ docker inspect --format "{{.Name}}" $(docker ps -a -q) | tr -d '/'
 # Run a linux command remotely in a container Or Get an independent terminal from a container remotely
 $ docker exec -it tomcat-server /bin/bash  
 
-<11:30AM-Wk>
 
 STATS:
 ==========
@@ -343,7 +342,7 @@ Goal: Create the docker image to ship the application code along with nginx conf
 =======
 <html>
     <body>
-	<h1 style="color:red;">Gamutkart Online Training Portal</h1>
+	<h1 style="color:red;">Gamut Gurus Technologies</h1>
     </body> 
 </html>
 =======
@@ -471,7 +470,10 @@ official images are controled by Docker core team.
 
 # Deleting all Images
 	- docker rmi `docker images -q`
+	
+--11:30AM--
 
+multiple intermediate containers during docker build command.
 
 DAY-7:
 #
@@ -603,4 +605,7 @@ Qns:
 Difference between CMD, RUN, ENTRYPOINT
 - How to log into the container with an user by default.
 - Networking concepts
+- Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
+- CPU allocation
+- How do you allocate HDD to a container (soft/hard)
 
