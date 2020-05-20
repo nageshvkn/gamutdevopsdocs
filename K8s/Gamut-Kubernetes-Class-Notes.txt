@@ -331,7 +331,7 @@ spec:
 $ kubectl create -f service-nginx.yml
 
 # Enable networking
-Go to VPC Network --> Firewal rules --> select on one existing rule --> edit --> Source IP ranges
+Click on Navigation menu(three lines on top left) --> Go to VPC Network --> Firewal rules --> select on one existing rule --> edit --> Source IP ranges
 --> 0.0.0.0/0 --> In 'Specified protocols and ports', write this range "0-65535"
 
 # Access the application from browser using worker-node port
@@ -350,7 +350,7 @@ metadata:
     labels:
       app: gamutkart-app
 spec:
-  replicas: 2
+  replicas: 8
   selector:
     matchLabels:
       app: gamutkart-app
@@ -405,9 +405,26 @@ $ kubectl delete -f pod.yml
 4.) Get all nodes IPs in Kubernetes cluster
 $ kubectl get nodes -o wide
 
+#
+List Deployments & Service
+$ kubectl get deployment
+$ kubectl get svc (Or service)
 
+#
+5.) Deleting Deployment & Service
+$ kubectl delete -f deploy-gamutkart.yaml(deployment yaml file name)
+$ kubectl delete -f service-gamutkart.yml( service yaml file name)
+
+$ kubectl delete deployment <deployment-name>
+$ kubectl delete service <service-name>
 
 Qns:
 ====
 Error loggin
+Auto Scale
+Updates
+Roleback
+Worker nodes - 2
+deployment & service in the same file
+application access at pod level
 
