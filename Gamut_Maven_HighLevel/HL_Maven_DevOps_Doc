@@ -13,8 +13,11 @@ What is Maven? Why we need a build tool?
 
 #4
 Installation
-	- Download JDK 1.8 and extract it to your favourite location.
-	- Download lastest Maven and extract it to your favourite location.
+	- Download JDK 1.8(jdk-8u251-linux-x64.tar.gz) and extract it to your favourite location
+	        Download URL - https://www.oracle.com/in/java/technologies/javase/javase-jdk8-downloads.html
+	- Download lastest Maven(apache-maven-3.6.3-bin.tar.gz) and extract it to your favourite 
+	  location
+	        Download URL - https://maven.apache.org/download.cgi
 	- Setup 'JAVA_HOME' Envi:qronment variable for Maven to locate JDK.
 	- Setup 'M2_HOME' for PATH variable
 	- Setup 'PATH' to run jdk and maven commands from any directory in the system.
@@ -39,7 +42,6 @@ Load .bashrc using below command or open new ternimial
 Verify Installation
 	$ javac -version
 	$ mvn --version
-
 
 DAY-2:
 

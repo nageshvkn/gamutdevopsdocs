@@ -1,7 +1,7 @@
 		Docker - The Container Virtualization Tool
 	==================================================
 Day-1:
-######
+###############
 #
 Diff between..
 - Physical server
@@ -471,10 +471,6 @@ official images are controled by Docker core team.
 # Deleting all Images
 	- docker rmi `docker images -q`
 	
---11:30AM--
-
-multiple intermediate containers during docker build command.
-
 DAY-7:
 #
 Docker Image layers
@@ -501,7 +497,6 @@ Docker Image layers
 		Bootfs:
 		    cgroups, namespace, lxc, devicemapper/aufs..etc.
 		Kernel
-
 
 Interview Notes:
 ===============
@@ -608,4 +603,6 @@ Difference between CMD, RUN, ENTRYPOINT
 - Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
 - CPU allocation
 - How do you allocate HDD to a container (soft/hard)
+- How do you create volumes in a particular directory instead of /var/lib/docker
+
 

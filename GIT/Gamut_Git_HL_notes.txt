@@ -85,7 +85,6 @@ Git stores all configurations in below file
 Save Git user's password
 $ git config --global credential.helper store
 
---4:30 IST--
 
 # Understand Git Jargon.
 	- Remote Repository
@@ -115,9 +114,9 @@ git diff --staged Login.java
 
 	A.) git rm OMS.java
 	    git commit OMS.java -m "comment"
-	        git push
+	    git push
 
-4. Renaming a file/folder
+3. Renaming a file/folder
 	A.) git mv Login.java Login1.java
 		git commit -m "rename Login"		
 Note:
@@ -151,9 +150,6 @@ Unstage the changes from STAGE area
 # Switching from one branch to another
 	$ git checkout dev_1.2.3
 
-#
-HEAD
-
 # Creating and switching to a newly created branch
 	$ git checkout -b dev_1.2.4
 
@@ -162,6 +158,11 @@ HEAD
 
 # List all remote branches
 	$ git branch -r
+	
+# Deleting a branch
+        $ git branch -d dev_1.2.3
+        $ git push -d origin dev_1.2.3
+        
 
 Merging:
 =========
@@ -316,8 +317,9 @@ Git stores each change as SHA values but SVN uses simple numbers as revisions.
 
 Qns:
 --> How do you push a specific to remote?
---> amend (Will it change the commit ID..Inspect this)
-
-
-
+--> Amend (Will it change the commit ID..Inspect this)
+--> How do you bring deleted branch changes back. restore a branch?
+--> Can you show all branches as tree structure?
+--> How do you merge only a particular file from 'Fetched' changes.
+--> reset --> hard/soft reset
 
