@@ -95,9 +95,13 @@ Building the maven project:
 	$ git --version --> verify git installation.
 
 #
-Clone the code from Git
+Clone the code from Git Or create your own Project using below Maven command
+   Clone:
 	$ git clone https://github.com/nageshvkn/flipkart.git
-
+   
+   Create a new project:
+        $ mvn archetype:generate -DgroupId=com.flipkart -DartifactId=flipkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false
+        
 #
 Building the project using Maven. Use below command.
 	$ mvn install
@@ -147,6 +151,9 @@ first time when we run 'mvn install' command, Maven downloads all missing depend
 So, we need to have internet when we run 'mvn install' command first time.
 
 
+#
+Understanding pom.xml file structure
+
 #10
 Artifact path in local repository .m2
 # More about local repository
@@ -154,9 +161,6 @@ Artifact path in local repository .m2
 
 - Package naming convention:
 	artifactId-version.jar/war
-
-#
-Understanding pom.xml file structure
 
 
 DAY-4:
@@ -179,7 +183,6 @@ Maven repositories
 #13
 	$ mvn deploy (uploads jar files to private (nexus) repository)
 
-
 #14
 "mvn clean" 
 
@@ -190,7 +193,7 @@ $ mvn install -Dmaven.test.skip=true (skips compilation and test case execution)
 
 #18
 Where Maven's coordinates / GAV parameters are helpful?
-	- To decide artifact storage path in local/central/remote
+	- To decide artifact storage path in local/central/private
 		repositories
 	- To decide jar/war name
 	- To define a dependency in pom.xml file.
@@ -213,6 +216,9 @@ Steps:
 #
 Clone the code from Git
 	$ git clone https://github.com/nageshvkn/iflipkart.git
+	                               OR
+Create a new project:
+        $ mvn archetype:generate -DgroupId=com.flipkart -DartifactId=flipkart -Dversion=1.0-SNAPSHOT -DinteractiveMode=false -DarchetypeArtifactId=maven-archetype-webapp
 
 #
 Building the project using Maven. Use below command.
@@ -268,7 +274,7 @@ $ mvn install
 
 4. 
 Deploy 'gamutkart.war' application to remote server deployment location(i.e $TOMCAT_HOME/webapps) using below command.
-	$ cp target/gamutkart.war $TOMCAT_HOME/webapps
+	$ cp target/gamutgurus.war $TOMCAT_HOME/webapps
 
 4A.
 After the deployment, we need start the server using below tomcat startup comamnd.
@@ -278,9 +284,8 @@ After the deployment, we need start the server using below tomcat startup comamn
 5.
 Tomcat by default runs on port 8080. So application can be accessed with below URL.
 
-	ex: http://IPAddress:8080/gamutkart
- 		http://localhost:8080/gamutkart (If application is deployed in local 
-																		machine)
+	ex: http://IPAddress:8080/gamutgurus
+ 		http://localhost:8080/gamutgurus (If application is deployed in local machine)
 
 6. NOTE:
 In case there is any issue in the application, errors will be logged in 

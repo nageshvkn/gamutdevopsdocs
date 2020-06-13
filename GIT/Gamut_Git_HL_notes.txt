@@ -35,7 +35,6 @@ Note: If you want to skip the staging, you need to commit all pending changes.
 git show <SHA>
 git show b85a6e123
 
-
 Creating remote repository in github
 ===============
 1. create an account in github.com
@@ -110,6 +109,7 @@ git diff Login.java
 
 git diff --staged Login.java
 
+
 2. Deleting a file
 
 	A.) git rm OMS.java
@@ -130,7 +130,6 @@ undo/revert local changes from source area
 
 Unstage the changes from STAGE area
 	$ git reset HEAD LoginWeb.java
-
 
 # BRANCHING
 	A. What is a branch?

@@ -14,7 +14,7 @@ VM, Docker, usazge in DevOps.
 what is docker? why docker?
 
 #
-Supported Platforms-
+Supported Platforms -
 	- Docker is supported on
 		- Linux platforms
 			Ubuntu, RHEL, CentOs..etc.
@@ -31,7 +31,6 @@ Note:
 Linux containers can be created on Windows and OS X.
 HOW?- Windows & Mac Docker installers contain a tiny Linux virtual machine.
 So, Docker creates linux container on top of this tiny Linux VM.
-
 
 Requirements:
 	- 64-bit architecture	  
@@ -68,7 +67,7 @@ Installation Steps:
 	
 # Install Latest version of Docker
 	$ sudo apt-get install docker-ce
-
+	
 #
 Installation Check
 sudo docker --version
@@ -220,7 +219,6 @@ $ docker rm -f $(docker ps -q)
 # list stopped containers only
 $ docker container ls -f status=exited
 
-
 # Starting a stopped container
 	sudo docker start gamut
 	sudo docker stop aa3f365f0fdocker4e
@@ -229,6 +227,9 @@ $ docker container ls -f status=exited
 # Attaching to a running container
 	docker attach gamut
 	docker attach b1b1c8dc1939
+
+# Run a linux command remotely in a container Or Get an independent terminal from a container remotely
+$ docker exec -it tomcat-server /bin/bash  
 
 # Stoping a container from 'host machine'
         - docker stop dgamut (Gracefully stop the container)
@@ -263,9 +264,6 @@ $ docker run -it -d ubuntu /bin/bash
 # List all container names
 $ docker inspect --format "{{.Name}}" $(docker ps -a -q) | tr -d '/'
 
-# Run a linux command remotely in a container Or Get an independent terminal from a container remotely
-$ docker exec -it tomcat-server /bin/bash  
-
 
 STATS:
 ==========
@@ -284,6 +282,11 @@ Allocating memory for a container (below command allocates 1 GB RAM)
 #
 Updating memory of an existing container 
 	$ docker update -m 2024m tomcat-server	
+	
+# CPU Allocation
+$ docker run -it --cpus="2" --name jenkins-server ubuntu /bin/bash
+$ docker upddate --cpus="2" jenkins-server
+
 
 # Push a container in sleep mode
 $ docker pause db-server1
@@ -597,6 +600,12 @@ Can you explain how you have implememnted Docker for your application?
 	
 Qns:
 ------
+7:30 AM batch
+--> How do you change docker root dir: /var/lib/docker?
+--> Port Mapping
+
+
+
 Difference between CMD, RUN, ENTRYPOINT
 - How to log into the container with an user by default.
 - Networking concepts
