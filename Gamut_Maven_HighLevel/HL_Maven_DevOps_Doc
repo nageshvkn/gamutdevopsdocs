@@ -35,7 +35,6 @@ Installing JDK and Maven:
 
 	export PATH=$M2_HOME/bin:$JAVA_HOME/bin:$PATH
 
-
 Load .bashrc using below command or open new ternimial
 	$ source .bashrc
  
@@ -113,7 +112,7 @@ $ mvn install - command executes below "build life cycle phases" automatically.
 		prepares project with initial pre-
 		requisites ex: creating necessary directory structure (i.e. target directory)
 	- validate
-		validate project's folder structure	
+		validate project's folder structure		
 	- compile
 		compiles "main" java code.
 	- test-compile
@@ -156,7 +155,6 @@ Understanding pom.xml file structure
 
 #10
 Artifact path in local repository .m2
-# More about local repository
  $USER_HOME/.m2/repository/groupId/artifactId/version/jar-OR-war-file
 
 - Package naming convention:
@@ -168,8 +166,11 @@ DAY-4:
 Maven has "Automatic Dependency resolution" feature
 	
 	- Direct dependency
-	- Transitive dependency
-		(hamcrest is dependency of junit and it becomes transitive dependency for our code)
+	- Transitive dependency (A -> B, B -> C,  A -> B & C)
+	  ( B is direct dependency for A and C is Transitive dependecy for A)
+	  ( To compile AppTest.java, we need Junit.jar. So Junit.jar becomes direct dependency.
+	    To execute Junit.jar, we need hamcrest.jar. So hamcrest.jar becomes transitive 
+	    dependency ) 
 
 
 Maven way of dependency addition, detection from different repositories.
@@ -183,8 +184,13 @@ Maven repositories
 #13
 	$ mvn deploy (uploads jar files to private (nexus) repository)
 
+
 #14
-"mvn clean" 
+"mvn clean"
+        - Complete Build
+        - Incremental Build
+        - Daily Build
+        - Nightly Build
 
 
 # Skip test cases
@@ -193,13 +199,12 @@ $ mvn install -Dmaven.test.skip=true (skips compilation and test case execution)
 
 #18
 Where Maven's coordinates / GAV parameters are helpful?
-	- To decide artifact storage path in local/central/private
-		repositories
+	- To decide artifact storage path in local repositorie.
 	- To decide jar/war name
 	- To define a dependency in pom.xml file.
 
 #19
-PROJECT-01: WEB Application Build and Deployment.
+PROJECT-02: WEB Application Build and Deployment.
 
 ------------
 Goal: 
@@ -321,4 +326,5 @@ Qns:
 1. How do you continue the build even after compilation failures.
         for Main & Test
        
+2. Maven & ANT comparison
 

@@ -67,7 +67,7 @@ Creating remote repository in github
 	Commit message
 	 
 # How SHA is generated?
-SHA / Version / Revison
+SHA / Version / Revison / Commit Id
 
 #
 Setting up mandatory configurations:
@@ -90,11 +90,15 @@ $ git config --global credential.helper store
 	- Working Directory
 	- Local Repository
 	- Stage/"Staging Index"
+	- SHA
+	- 
 
 
 # History
 	$ git log Login.java
 	$ git log
+
+--Wk-11 AM --
 
 #Qn.
 Show me all commits made by user "Ram" AND has a commit message "math function" in it.
@@ -144,7 +148,6 @@ Unstage the changes from STAGE area
 
 # Push new branch to remote repository
 	$ git push origin dev_1.2.3
-
 		
 # Switching from one branch to another
 	$ git checkout dev_1.2.3
@@ -276,6 +279,8 @@ If two users modify the same file in source and target branches and if the same 
 - git add
 - git commit (after compilation and some z sanity testing)
 - git push
+
+--8:30 AM-- Batch
 
 #	
 git remote

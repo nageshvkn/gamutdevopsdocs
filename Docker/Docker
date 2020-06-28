@@ -228,7 +228,7 @@ $ docker container ls -f status=exited
 	docker attach gamut
 	docker attach b1b1c8dc1939
 
-# Run a linux command remotely in a container Or Get an independent terminal from a container remotely
+# Run a linux command remotely in a container Or Get an independent terminal from a container remotely (from Host)
 $ docker exec -it tomcat-server /bin/bash  
 
 # Stoping a container from 'host machine'
@@ -247,6 +247,7 @@ $ docker exec -it tomcat-server /bin/bash
 
 # Create a container in a background mode ( without termial access ) 
 $ docker run -it -d ubuntu /bin/bash
+
 
 # Find More About The Container
 - 'docker inspect' comamnd interrogates the container and returns complete 
@@ -292,6 +293,7 @@ $ docker upddate --cpus="2" jenkins-server
 $ docker pause db-server1
 $ docker unpause db-server1
 
+--4:30 PM--
 
 DAY-4:
 # Docker Images

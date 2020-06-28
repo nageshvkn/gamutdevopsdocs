@@ -1,5 +1,5 @@
-						Installing Kubernetes Using Kubeadm
-					===========================================
+			        Installing Kubernetes Using Kubeadm
+			===========================================
 #
 Topic: Setting up Control-plane/Master node
 #############################################

@@ -50,7 +50,7 @@ source ~/.bashrc
 
 #
 Launch jenkins using below URL
-http://172.17.0.2:8080/jenkins
+                                http://172.17.0.2:8080/jenkins
 
 
 #
