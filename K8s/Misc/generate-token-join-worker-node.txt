@@ -1,0 +1,45 @@
+        How to generate Bootstrap token to join worker-nodes
+       -----------------------------------------------------------
+
+#
+1.)
+Create a new Bootstrap token and construct worker-node join command
+
+Note: This approach will create a new token and you can use this to join worker nodes. You can create any no. of bootstrap tokens. This is very easy approach than below 2.)
+
+$ kubeadm token create --print-join-command
+
+Output:
+kubeadm join 10.128.0.7:6443 --token dda5a1.qek5p1pzja7bh4sc     --discovery-token-ca-cert-hash sha256:1155f6468f92d60886f72a3ada57ac9
+7edcac1227e8af6b0b1adeda9d9305824
+
+
+#
+2.)
+List existing 'Bootstrap Tokens' and 'discovery token ca certification hash value' & Construct worker node join command
+
+Note: This approach is helpful if you already generated token during 'kubeadm init' and want to use the same to join worker node. You can generate any no.of new tokens so we can use first approach rather than constructing join command for existing token.
+
+Example Syntax:
+kubeadm join <MASTER-END-POINT> --token <Token> --discovery-token-ca-cert-hash sha256:<hash-value>
+
+1. List <Token>
+$ kubeadm token list
+
+Output: 0isp8p.by0mwcklmnqpdbq1
+
+2. List discovery token ca cert <hash-value>
+$ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | open
+ssl dgst -sha256 -hex | sed 's/^.* //'
+
+Output: 1155f6468f92d60886f72a3ada57ac97edcac1227e8af6b0b1adeda9d9305824
+
+3. Check Kubernetes <MASTER-END-POINT>
+$ kubectl cluster-info
+
+Output: Kubernetes master is running at https://10.128.0.7:6443
+
+Example:
+kubeadm join 10.128.0.7:6443 --token 0isp8p.by0mwcklmnqpdbq1 --discovery-token-ca-cert-hash sha256:1155f6468f92d60886f72a3ada57ac97edcac1227e8af6b0b1adeda9d9305824
+
+
