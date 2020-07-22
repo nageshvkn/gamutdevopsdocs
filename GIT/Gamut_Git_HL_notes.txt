@@ -98,8 +98,6 @@ $ git config --global credential.helper store
 	$ git log Login.java
 	$ git log
 
---Wk-11 AM --
-
 #Qn.
 Show me all commits made by user "Ram" AND has a commit message "math function" in it.
 
@@ -291,6 +289,7 @@ git remote
 #
 Tag
 
+
 NOTES:
 SVN & Git differences:
 ==========================
@@ -317,6 +316,11 @@ Git seems to be good with merging.
 
 5.
 Git stores each change as SHA values but SVN uses simple numbers as revisions.
+
+
+
+Qns: wk-11am
+-> Forking concept
 
 
 Qns:

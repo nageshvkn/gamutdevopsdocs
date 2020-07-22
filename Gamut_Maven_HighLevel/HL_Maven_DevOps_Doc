@@ -290,7 +290,7 @@ After the deployment, we need start the server using below tomcat startup comamn
 Tomcat by default runs on port 8080. So application can be accessed with below URL.
 
 	ex: http://IPAddress:8080/gamutgurus
- 		http://localhost:8080/gamutgurus (If application is deployed in local machine)
+ 	    http://localhost:8080/gamutgurus (If application is deployed in local machine)
 
 6. NOTE:
 In case there is any issue in the application, errors will be logged in 
