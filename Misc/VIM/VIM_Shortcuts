@@ -63,7 +63,9 @@ shift+d --> delete all from cursor point
 ctrl+f = next page / scroll page by page in forward direction
 ctrl+b = previous page / scroll page by page in backward direction
 
+If you want to configure something permanently for vim editor, create $USER_HOME/.vimrc and define your configurations.
 
+Examples:
 .vimrc
 ==========
 set number

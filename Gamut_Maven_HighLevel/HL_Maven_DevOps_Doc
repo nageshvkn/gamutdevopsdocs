@@ -178,7 +178,7 @@ Maven way of dependency addition, detection from different repositories.
 #12
 Maven repositories
 	- Central
-	- Private ( Nexus/atifactrory tools )
+	- Private ( Nexus/Jfrog-atifactrory tools )
 	- Local (.m2)
 
 #13
@@ -197,9 +197,13 @@ Maven repositories
 $ mvn install -DskipTest (skip test cases execution)
 $ mvn install -Dmaven.test.skip=true (skips compilation and test case execution)
 
+$ mvn compiler:testCompile (Compiles only testing code)
+$ mvn surefire:test        (Executes the test cases and generates reports)
+
+
 #18
 Where Maven's coordinates / GAV parameters are helpful?
-	- To decide artifact storage path in local repositorie.
+	- To decide artifact storage path in local repository.
 	- To decide jar/war name
 	- To define a dependency in pom.xml file.
 

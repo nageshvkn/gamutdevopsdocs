@@ -107,10 +107,11 @@ $ git log --author="Ram" --grep="math function"
 # GIT Commands
 
 1.  
-git diff Login.java
+$ git diff Login.java
 
-git diff --staged Login.java
+$ git diff --staged Login.java
 
+$ git show 123abc456
 
 2. Deleting a file
 
@@ -138,6 +139,7 @@ Unstage the changes from STAGE area
 	B. Why and When we create a branch?
 	C. Branching Stratogies
 
+
 # List all the branches
 	$ git branch
 	
@@ -162,7 +164,8 @@ Unstage the changes from STAGE area
 # Deleting a branch
         $ git branch -d dev_1.2.3
         $ git push -d origin dev_1.2.3
-        
+
+7:15 AM Batch --> AWS VM setup        
 
 Merging:
 =========

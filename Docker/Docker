@@ -36,7 +36,6 @@ Requirements:
 	- 64-bit architecture	  
 	- Linux 3.8 or later Kernel versions
 
-
 #
 Requirements Check:
 - Check Kernel version
@@ -97,7 +96,6 @@ ubuntu : Is an image and also called as "stock image" or "base image".
 	This image will be downloaded from Docker hub when we run 'docker run' 
 			  command first time.	
 /bin/bash: 'shell program' that will be installed in the terminal.
-
 
 
 # Inspect the new container.. Let's beleive that it's separate machine
@@ -179,6 +177,10 @@ Login to a stopped container
 $ docker cotainer ls -a
 $ docker ps -a
 
+
+# List given no. of containers
+$ docker ps -a -n1
+
 # List running containers only
 $ sudo docker cotainer ls
 $ docker ps
@@ -227,6 +229,7 @@ $ docker container ls -f status=exited
 # Attaching to a running container
 	docker attach gamut
 	docker attach b1b1c8dc1939
+
 
 # Run a linux command remotely in a container Or Get an independent terminal from a container remotely (from Host)
 $ docker exec -it tomcat-server /bin/bash  
@@ -294,8 +297,7 @@ $ docker upddate --cpus="2" jenkins-server
 $ docker pause db-server1
 $ docker unpause db-server1
 
---8:30 AM--
---4:30 PM--
+--11:30 AM -- batch
 
 DAY-4:
 # Docker Images
@@ -335,7 +337,7 @@ g. You can create new environments within few minutes (ex: create new performanc
 # Creating docker image using "docker commit" command
 ===========================================================
 PROJECT-1:
-Goal: Create the docker image to ship the application code along with nginx configurations to the customer.
+Goal: Create the docker image to ship the application code along with nginx configurations.
 
 - Create container
 	$ docker run -it --name nginx-container ubuntu /bin/bash
@@ -557,6 +559,7 @@ Crreating Volume with existing directory in the host machine
 # List down all containers which are using a particular volume
 	$ docker ps -a --filter volume=deployment_code
 
+
 #
 Docker Registry
 Docker Repository
@@ -606,4 +609,10 @@ Can you explain how you have implememnted Docker for your application?
 #
 	Docker and Jenkins Integration
 
+---
+Qns:	8:30 AM batch
+# 
+1. User authentication for Docker-Hub. How you enable users to download / upload images
+2. Upload Dockerfile to Docker Hub
+3. Docker compose - examples
 
