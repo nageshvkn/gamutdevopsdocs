@@ -609,10 +609,4 @@ Can you explain how you have implememnted Docker for your application?
 #
 	Docker and Jenkins Integration
 
----
-Qns:	8:30 AM batch
-# 
-1. User authentication for Docker-Hub. How you enable users to download / upload images
-2. Upload Dockerfile to Docker Hub
-3. Docker compose - examples
 
