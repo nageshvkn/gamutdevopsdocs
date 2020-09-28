@@ -32,7 +32,7 @@ Deletng a tag
 $ git tag -d v1.4-lw
 
 # How do you checkout the code from a tag?
-$ git checkout 
+$ git checkout v1.4-lw
 
 # Creating a branch from a tag
 $ git branch dev129 relase-123-tag
@@ -43,5 +43,8 @@ Stashing
 # Stashing the changes
 $ git stash
 
-#
-$
+# Un-stashing the changes
+$ $ git stash pop
+
+
+

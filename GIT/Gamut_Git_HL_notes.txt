@@ -35,6 +35,21 @@ Note: If you want to skip the staging, you need to commit all pending changes.
 git show <SHA>
 git show b85a6e123
 
+#
+- Git Commit structure
+	SHA value / commit ID
+	User & email
+	Date & time stamp
+	Commit message
+	 
+# How SHA is generated?
+SHA / Version / Revison / Commit Id
+
+--7:00 AM weekend batch--
+1. VM creations
+2. Vim editor shortcuts
+
+#
 Creating remote repository in github
 ===============
 1. create an account in github.com
@@ -60,16 +75,6 @@ Creating remote repository in github
 	--> git log Login.java
 
 #
-- Git Commit structure
-	SHA value / commit ID
-	User & email
-	Date & time stamp
-	Commit message
-	 
-# How SHA is generated?
-SHA / Version / Revison / Commit Id
-
-#
 Setting up mandatory configurations:
 =============================================
 $ git config --global user.name "Nageswara Rao P"
@@ -91,8 +96,6 @@ $ git config --global credential.helper store
 	- Local Repository
 	- Stage/"Staging Index"
 	- SHA
-	- 
-
 
 # History
 	$ git log Login.java
@@ -102,6 +105,11 @@ $ git config --global credential.helper store
 Show me all commits made by user "Ram" AND has a commit message "math function" in it.
 
 $ git log --author="Ram" --grep="math function"
+
+$ git log --since="28/08/2020"
+$ git log --until="01/09/2020"
+$ git log -n5
+$ git log --oneline
 
 
 # GIT Commands
@@ -118,7 +126,8 @@ $ git show 123abc456
 	A.) git rm OMS.java
 	    git commit OMS.java -m "comment"
 	    git push
-
+	    
+ 
 3. Renaming a file/folder
 	A.) git mv Login.java Login1.java
 		git commit -m "rename Login"		
@@ -134,11 +143,11 @@ undo/revert local changes from source area
 Unstage the changes from STAGE area
 	$ git reset HEAD LoginWeb.java
 
+
 # BRANCHING
 	A. What is a branch?
 	B. Why and When we create a branch?
 	C. Branching Stratogies
-
 
 # List all the branches
 	$ git branch
@@ -163,9 +172,8 @@ Unstage the changes from STAGE area
 	
 # Deleting a branch
         $ git branch -d dev_1.2.3
-        $ git push -d origin dev_1.2.3
+        $ git push -d origin dev_1.2.3       
 
-7:15 AM Batch --> AWS VM setup        
 
 Merging:
 =========
@@ -281,16 +289,13 @@ If two users modify the same file in source and target branches and if the same 
 - git commit (after compilation and some z sanity testing)
 - git push
 
---8:30 AM-- Batch
-
 #	
 git remote
 	PULL
 	FETCH
+	
 	PUSH
 	CLONE
-#
-Tag
 
 
 NOTES:
@@ -321,16 +326,8 @@ Git seems to be good with merging.
 Git stores each change as SHA values but SVN uses simple numbers as revisions.
 
 
+Qns: 7:00 AM batch
+--> pull request --> [assignment]
+--> rebase Vs merge
 
-Qns: wk-11am
--> Forking concept
-
-
-Qns:
---> How do you push a specific to remote?
---> Amend (Will it change the commit ID..Inspect this)
---> How do you bring deleted branch changes back. restore a branch?
---> Can you show all branches as tree structure?
---> How do you merge only a particular file from 'Fetched' changes.
---> reset --> hard/soft reset
 

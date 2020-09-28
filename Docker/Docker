@@ -297,7 +297,6 @@ $ docker upddate --cpus="2" jenkins-server
 $ docker pause db-server1
 $ docker unpause db-server1
 
---11:30 AM -- batch
 
 DAY-4:
 # Docker Images
@@ -321,6 +320,7 @@ d. Auto scale your environment very easilly.
 e. No need to live with complex, redundant configurations. You can create disposable environments.
 f. You can leverage/utilizes local machines's computing power when you need to test your code on multiple machines, instead of waiting for DevOps team to supply or wasting extra computing power. you already have 500GB, 16GB RAM right? are you utilising it? NO! then why again you need extra hardware?
 g. You can create new environments within few minutes (ex: create new performance testing environment within few minutes before the release)
+
 
 # Listing docker images
 - $ docker image ls
@@ -351,7 +351,7 @@ Goal: Create the docker image to ship the application code along with nginx conf
 =======
 <html>
     <body>
-	<h1 style="color:red;">Gamut Gurus Technologies</h1>
+	<h1 style="color:red;">Wiculty Learning Solutions</h1>
     </body> 
 </html>
 =======
@@ -422,7 +422,7 @@ index.html:
  	
 # Building docker image:
 	$ cd gamutgurus
-	$ docker build -t="nageshvkn/nginx-img" .
+	$ docker build -t "nageshvkn/nginx-img" .
 
 Note: Building the image if 'Dockerfile' has different name.
 	  Use "-f <YourDockerfileName>" option.
@@ -459,16 +459,10 @@ User Images Syntax:
 Official Images Syntax:
 	ubuntu
 
-User images are controled by Docker users.
-official images are controled by Docker core team.
-
-
 # Specifying Image via tags
 	- ubuntu:16.04
 	  ubuntu- is image name
 	  16.04 - is called tag
-	  
-
 
 # Pulling the images
 	- docker pull tomcat
@@ -566,7 +560,7 @@ Docker Repository
 Image tags
 
 DAY-8:
-Gamutkart Real application
+Gamutkart Real-time application
 ============================
 Agenda:
 How do you containerize or dockerize your application?

@@ -1,0 +1,19 @@
+Qns:	8:30 AM batch
+# Docker 
+1. User authentication for Docker-Hub. How you enable users to download / upload images
+2. Upload Dockerfile to Docker Hub
+3. Docker compose - examples
+
+
+
+Qns: wk-11am
+-> Forking concept
+
+
+Qns:
+--> How do you push a specific to remote?
+--> Amend (Will it change the commit ID..Inspect this)
+--> How do you bring deleted branch changes back. restore a branch?
+--> Can you show all branches as tree structure?
+--> How do you merge only a particular file from 'Fetched' changes.
+--> reset --> hard/soft reset

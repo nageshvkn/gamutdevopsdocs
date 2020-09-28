@@ -1,14 +1,25 @@
                                 Setting up Linux VM on Windows
-
+                               ----------------------------------------
 #
 1. Install VirtuablBox (Download from below URL)
+For 64-bit machines:
+--
 https://www.virtualbox.org/wiki/Downloads (OR)
 https://download.virtualbox.org/virtualbox/6.1.10/VirtualBox-6.1.10-138449-Win.exe (Direct Link)
+
+For 32-bit machines:
+--
+https://www.virtualbox.org/wiki/Download_Old_Builds_5_2
+
 
 #
 2. Download "Ubuntu 18.04 Desktop" Image from below URL
 https://releases.ubuntu.com/18.04/ (OR)
 https://releases.ubuntu.com/18.04/ubuntu-18.04.4-desktop-amd64.iso
+
+For 32-bit machines:
+--
+https://releases.ubuntu.com/16.04/ubuntu-16.04.6-desktop-i386.iso
 
 #
 3. Launch VirtualBox from Windows start
