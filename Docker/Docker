@@ -242,6 +242,7 @@ $ docker exec -it tomcat-server /bin/bash
 	Ctrl + p + q - push a running container in background mode.
 	Ctrl + d -  short cut to 'stop' a container.
 
+
 # Inspecting the container's processes from host machine
 	$ docker top <container-name>
 
@@ -290,13 +291,14 @@ Updating memory of an existing container
 	
 # CPU Allocation
 $ docker run -it --cpus="2" --name jenkins-server ubuntu /bin/bash
-$ docker upddate --cpus="2" jenkins-server
+$ docker update --cpus="2" jenkins-server
 
 
 # Push a container in sleep mode
 $ docker pause db-server1
 $ docker unpause db-server1
 
+--8:30 weekend--
 
 DAY-4:
 # Docker Images
